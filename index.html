@@ -2,18 +2,21 @@
 <html lang="ar" dir="rtl" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#050505">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MUGORA | MAGIC IN HEAT - المتجر الرسمي الفاخر</title>
     
+    <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome Icons Pro -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Leaflet CSS for Map integration -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -51,16 +54,6 @@
     </script>
 
     <style>
-        * {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-            max-width: 100vw;
-        }
-
         body {
             font-family: 'Outfit', 'Cairo', sans-serif;
             background-color: #050505;
@@ -68,16 +61,12 @@
             overflow-x: hidden;
             selection-background-color: #C9A15A;
             selection-color: #050505;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .gold-gradient-text {
             background: linear-gradient(135deg, #FFF0D0 0%, #E8CA8C 25%, #C9A15A 60%, #9E7B3B 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .gold-button-gradient {
@@ -131,19 +120,17 @@
         .product-card {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @media (hover: hover) {
-            .product-card:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.9), 0 0 20px rgba(201, 161, 90, 0.15);
-            }
-            .product-card:hover .img-glow {
-                transform: scale(1.06);
-            }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.9), 0 0 20px rgba(201, 161, 90, 0.15);
         }
 
         .img-glow {
             filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
             transition: transform 0.5s ease;
+        }
+        .product-card:hover .img-glow {
+            transform: scale(1.06);
         }
 
         @keyframes heatPulse {
@@ -157,95 +144,21 @@
         @keyframes shimmer {
             100% { transform: translateX(100%); }
         }
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer::after {
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0));
+            animation: shimmer 2.5s infinite;
+            content: '';
+        }
 
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* ====== Modal improvements ====== */
-        .modal-overlay {
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        .modal-overlay.active {
-            display: flex;
-        }
-        .modal-panel {
-            max-height: 92vh;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* ====== Line Clamp ====== */
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* ====== Mobile touch targets ====== */
-        @media (max-width: 640px) {
-            .touch-btn {
-                min-width: 44px;
-                min-height: 44px;
-            }
-        }
-
-        /* ====== Prevent bounce/overscroll on modals ====== */
-        body.modal-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-        }
-
-        /* ====== Hero responsive height ====== */
-        .hero-section {
-            min-height: 520px;
-        }
-        @media (max-width: 1024px) {
-            .hero-section { min-height: auto; }
-        }
-        @media (max-width: 640px) {
-            .hero-section { min-height: auto; }
-        }
-
-        /* ====== Small phone (320-375px) ====== */
-        @media (max-width: 375px) {
-            .product-card h3 {
-                font-size: 11px;
-            }
-            .product-card .price-text {
-                font-size: 12px;
-            }
-        }
-
-        /* ====== Product image responsive ====== */
-        .product-img-box {
-            height: 200px;
-        }
-        @media (min-width: 640px) {
-            .product-img-box { height: 240px; }
-        }
-        @media (min-width: 1024px) {
-            .product-img-box { height: 260px; }
-        }
-
-        /* ====== Smooth fade for tabs ====== */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .tab-fade {
-            animation: fadeIn 0.35s ease-out;
-        }
-
-        /* ====== Cart row responsive ====== */
-        @media (max-width: 480px) {
-            .cart-row-item {
-                flex-direction: column;
-                align-items: stretch !important;
-            }
-        }
     </style>
 </head>
 <body class="bg-[#050505] text-[#F5EFE4] min-h-screen flex flex-col justify-between antialiased">
@@ -254,24 +167,31 @@
     <div id="toastContainer" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 w-full max-w-md px-4 pointer-events-none"></div>
 
     <!-- Announcement Top Banner -->
-    <div class="bg-gradient-to-r from-[#0B0B0B] via-[#1F180E] to-[#0B0B0B] border-b border-[#C9A15A]/20 py-2.5 px-3 text-center text-xs relative z-50">
-        <div class="max-w-7xl mx-auto flex items-center justify-center text-[#E8CA8C] font-medium gap-2">
-            <i class="fa-solid fa-fire text-[#C9A15A] text-[10px]"></i>
-            <span class="text-[10px] sm:text-xs leading-tight">
-                استخدم كود <strong class="bg-[#C9A15A]/20 px-1.5 py-0.5 rounded text-white border border-[#C9A15A]/40 font-mono">MUGORA10</strong> للحصول على خصم 10%
-            </span>
+    <div class="bg-gradient-to-r from-[#0B0B0B] via-[#1F180E] to-[#0B0B0B] border-b border-[#C9A15A]/20 py-2.5 px-4 text-center text-xs relative z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between text-[#E8CA8C] font-medium">
+            <div class="hidden sm:flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#C9A15A] animate-ping"></span>
+                <span>توصيل مجاني لجميع الطلبات فوق 1200 ج.م</span>
+            </div>
+            <div class="mx-auto sm:mx-0 flex items-center gap-3">
+                <i class="fa-solid fa-fire text-[#C9A15A]"></i>
+                <span>استخدم كود <strong class="bg-[#C9A15A]/20 px-2 py-0.5 rounded text-white border border-[#C9A15A]/40 font-mono">MUGORA10</strong> للحصول على خصم 10%</span>
+            </div>
+            <div class="hidden md:flex items-center gap-3 text-[11px] text-[#8A8A8A]">
+                <span><i class="fa-solid fa-headset text-[#C9A15A]"></i> خدمة العملاء 24/7</span>
+            </div>
         </div>
     </div>
 
     <!-- Sticky Navigation Header -->
     <header class="sticky top-0 z-40 glass-header border-b border-[#282828] transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
                 
                 <!-- Brand Logo & Emblem -->
-                <div class="flex items-center gap-2 sm:gap-3 cursor-pointer group flex-shrink-0" onclick="switchTab('home')">
-                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-[#1A1A1A] to-[#050505] border border-[#C9A15A]/50 flex items-center justify-center shadow-gold-glow group-hover:border-[#E8CA8C] transition-all duration-300">
-                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-[#C9A15A]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="switchTab('home')">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#1A1A1A] to-[#050505] border border-[#C9A15A]/50 flex items-center justify-center shadow-gold-glow group-hover:border-[#E8CA8C] transition-all duration-300">
+                        <svg class="w-7 h-7 text-[#C9A15A]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 6 L90 26 L90 74 L50 94 L10 74 L10 26 Z" stroke="url(#goldGradHeader)" stroke-width="4.5" fill="#0B0B0B"/>
                             <path d="M30 70 V30 L50 52 L70 30 V70" stroke="url(#goldGradHeader)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
                             <circle cx="50" cy="22" r="3" fill="#C9A15A"/>
@@ -285,15 +205,15 @@
                         </svg>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-serif text-lg sm:text-2xl lg:text-3xl font-black tracking-widest gold-gradient-text leading-none">MUGORA</span>
-                        <span class="hidden sm:block text-[8px] sm:text-[9px] tracking-[0.28em] text-[#8A8A8A] font-bold uppercase mt-1">MAGIC IN HEAT</span>
+                        <span class="font-serif text-2xl sm:text-3xl font-black tracking-widest gold-gradient-text leading-none">MUGORA</span>
+                        <span class="text-[9px] tracking-[0.32em] text-[#8A8A8A] font-bold uppercase mt-1">MAGIC IN HEAT</span>
                     </div>
                 </div>
 
                 <!-- Live Desktop Search Bar -->
-                <div class="hidden md:flex flex-1 max-w-lg mx-6 relative">
+                <div class="hidden md:flex flex-1 max-w-lg mx-8 relative">
                     <div class="relative w-full">
-                        <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="ابحث عن كوب حراري، موديل..." 
+                        <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="ابحث عن كوب حراري، موديل، درجة حرارة..." 
                                class="w-full bg-[#121212] text-sm text-[#F5EFE4] placeholder-[#8A8A8A] pr-11 pl-10 py-3 rounded-full border border-[#282828] focus:outline-none focus:border-[#C9A15A] focus:ring-1 focus:ring-[#C9A15A] transition-all">
                         <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] text-sm"></i>
                         <button onclick="resetFilters()" id="clearSearchBtn" class="hidden absolute left-3 top-1/2 -translate-y-1/2 text-[#8A8A8A] hover:text-white text-xs">
@@ -303,10 +223,10 @@
                 </div>
 
                 <!-- Navigation Links & Actions -->
-                <div class="flex items-center gap-0.5 sm:gap-2 lg:gap-4">
+                <div class="flex items-center gap-3 sm:gap-5">
                     <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold tracking-wide">
-                        <button onclick="switchTab('home')" class="hover:text-[#E8CA8C] transition-colors py-1">الرئيسية</button>
-                        <button onclick="switchTab('shop')" class="hover:text-[#E8CA8C] transition-colors py-1">المتجر</button>
+                        <button onclick="switchTab('home')" id="navHome" class="hover:text-[#E8CA8C] transition-colors py-1 relative active-nav">الرئيسية</button>
+                        <button onclick="switchTab('shop')" id="navShop" class="hover:text-[#E8CA8C] transition-colors py-1">المتجر الفاخر</button>
                         <button onclick="openMugFinderModal()" class="hover:text-[#E8CA8C] text-[#C9A15A] transition-colors py-1 flex items-center gap-1.5">
                             <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
                             <span>مستشار الحجم</span>
@@ -316,35 +236,35 @@
                     <div class="h-6 w-[1px] bg-[#282828] hidden lg:block"></div>
 
                     <!-- Comparison Tool Button -->
-                    <button onclick="openCompareModal()" class="relative p-2 sm:p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212] touch-btn" title="مقارنة">
-                        <i class="fa-solid fa-code-compare text-base sm:text-lg"></i>
-                        <span id="compareBadge" class="hidden absolute -top-0.5 -right-0.5 bg-[#C9A15A] text-[#050505] text-[9px] sm:text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    <button onclick="openCompareModal()" class="relative p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212]" title="مقارنة الموديلات">
+                        <i class="fa-solid fa-code-compare text-lg"></i>
+                        <span id="compareBadge" class="hidden absolute -top-1 -right-1 bg-[#C9A15A] text-[#050505] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
                     </button>
 
                     <!-- Wishlist Icon Button -->
-                    <button onclick="switchTab('wishlist')" class="relative p-2 sm:p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212] touch-btn" title="المفضلة">
-                        <i class="fa-regular fa-heart text-base sm:text-lg"></i>
-                        <span id="wishlistBadge" class="hidden absolute -top-0.5 -right-0.5 bg-[#C9A15A] text-[#050505] text-[9px] sm:text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    <button onclick="switchTab('wishlist')" class="relative p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212]" title="المفضلة">
+                        <i class="fa-regular fa-heart text-lg"></i>
+                        <span id="wishlistBadge" class="hidden absolute -top-1 -right-1 bg-[#C9A15A] text-[#050505] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
                     </button>
 
-                    <!-- Cart Button -->
-                    <button onclick="switchTab('cart')" class="relative p-2 sm:p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212] touch-btn" title="السلة">
-                        <i class="fa-solid fa-bag-shopping text-base sm:text-lg"></i>
-                        <span id="cartBadge" class="hidden absolute -top-0.5 -right-0.5 bg-gradient-to-r from-[#E8CA8C] to-[#C9A15A] text-[#050505] text-[9px] sm:text-[10px] font-extrabold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shadow-lg">0</span>
+                    <!-- Cart Drawer Trigger Button -->
+                    <button onclick="switchTab('cart')" class="relative p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212]" title="سلة التسوق">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                        <span id="cartBadge" class="hidden absolute -top-1 -right-1 bg-gradient-to-r from-[#E8CA8C] to-[#C9A15A] text-[#050505] text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-lg">0</span>
                     </button>
 
-                    <!-- Profile Button -->
-                    <button onclick="switchTab('profile')" class="p-2 sm:p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212] touch-btn" title="الحساب">
-                        <i class="fa-regular fa-user text-base sm:text-lg"></i>
+                    <!-- User Profile Button -->
+                    <button onclick="switchTab('profile')" class="p-2.5 text-[#F5EFE4] hover:text-[#E8CA8C] transition-colors rounded-xl hover:bg-[#121212]" title="الحساب الشخصي">
+                        <i class="fa-regular fa-user text-lg"></i>
                     </button>
                 </div>
 
             </div>
 
-            <!-- Mobile Search Bar -->
-            <div class="md:hidden pb-3 pt-1">
+            <!-- Mobile Live Search Bar -->
+            <div class="md:hidden pb-4 pt-1">
                 <div class="relative">
-                    <input type="text" id="mobileSearchInput" oninput="handleSearch(this.value)" placeholder="ابحث في جميع منتجات MUGORA..." 
+                    <input type="text" oninput="handleSearch(this.value)" placeholder="ابحث في جميع منتجات MUGORA..." 
                            class="w-full bg-[#121212] text-xs text-[#F5EFE4] placeholder-[#8A8A8A] pr-10 pl-4 py-2.5 rounded-full border border-[#282828] focus:outline-none focus:border-[#C9A15A]">
                     <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] text-xs"></i>
                 </div>
@@ -353,80 +273,80 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         <!-- ================= TAB 1: HOME VIEW ================= -->
-        <section id="tabHome" class="space-y-10 sm:space-y-14">
+        <section id="tabHome" class="space-y-14">
             
-            <!-- Hero Showcase Banner -->
-            <div class="hero-section relative rounded-2xl sm:rounded-3xl overflow-hidden border border-[#282828] bg-gradient-to-b from-[#0F0F0F] via-[#0B0B0B] to-[#050505] flex items-center shadow-2xl">
-                <div class="absolute -top-32 -left-32 w-64 sm:w-96 h-64 sm:h-96 bg-[#C9A15A]/15 rounded-full blur-[100px] pointer-events-none animate-heat-pulse"></div>
-                <div class="absolute -bottom-32 -right-32 w-64 sm:w-96 h-64 sm:h-96 bg-[#9E7B3B]/10 rounded-full blur-[100px] pointer-events-none"></div>
+            <!-- Ultra Luxury Hero Showcase Banner -->
+            <div class="relative rounded-3xl overflow-hidden border border-[#282828] bg-gradient-to-b from-[#0F0F0F] via-[#0B0B0B] to-[#050505] min-h-[480px] sm:min-h-[540px] flex items-center shadow-2xl">
+                <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#C9A15A]/15 rounded-full blur-[100px] pointer-events-none animate-heat-pulse"></div>
+                <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-[#9E7B3B]/10 rounded-full blur-[100px] pointer-events-none"></div>
                 
                 <div class="absolute inset-0 bg-[radial-gradient(#282828_1px,transparent_1px)] [background-size:24px_24px] opacity-30"></div>
 
-                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 p-5 sm:p-10 lg:p-16 items-center w-full">
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-12 lg:p-16 items-center w-full">
                     
-                    <div class="lg:col-span-7 space-y-5 sm:space-y-6 text-center lg:text-right">
-                        <div class="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[#C9A15A]/10 border border-[#C9A15A]/30 text-[#E8CA8C] text-[10px] sm:text-xs font-bold uppercase tracking-wider sm:tracking-widest">
-                            <i class="fa-solid fa-fire text-[10px] sm:text-xs animate-bounce text-[#C9A15A]"></i>
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C9A15A]/10 border border-[#C9A15A]/30 text-[#E8CA8C] text-xs font-bold uppercase tracking-widest">
+                            <i class="fa-solid fa-fire text-xs animate-bounce text-[#C9A15A]"></i>
                             <span>تكنولوجيا العزل الحراري الذكي 2026</span>
                         </div>
 
-                        <h1 class="font-serif text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-white leading-tight">
+                        <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight">
                             MUGORA <br>
                             <span class="gold-gradient-text italic font-serif">MAGIC IN HEAT</span>
                         </h1>
 
-                        <p class="text-xs sm:text-sm lg:text-base text-[#8A8A8A] max-w-xl leading-relaxed mx-auto lg:mx-0">
-                            أعِد تعريف تجربة المشروبات اليومية. تصميم هندسي نرويجي فاخر بحفظ حراري يصل إلى 24 ساعة، مع طبقة حماية سيراميك نادرة.
+                        <p class="text-sm sm:text-base text-[#8A8A8A] max-w-xl leading-relaxed mx-auto lg:mx-0 font-normal">
+                            أعِد تعريف تجربة المشروبات اليومية. تصميم هندسي نرويجي فاخر بحفظ حراري يصل إلى 24 ساعة، مع طبقة حماية سيراميك نادرة تضمن النقاء الكامل لنكهة قهوتك.
                         </p>
 
-                        <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-2">
-                            <button onclick="scrollToProducts()" class="gold-button-gradient text-[#050505] font-extrabold px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm flex items-center justify-center gap-2 shadow-gold-lg">
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <button onclick="scrollToProducts()" class="gold-button-gradient text-[#050505] font-extrabold px-8 py-4 rounded-full text-sm flex items-center gap-3 shadow-gold-lg">
                                 <span>تسوق المجموعة الرسمية</span>
                                 <i class="fa-solid fa-arrow-left text-xs"></i>
                             </button>
-                            <button onclick="openMugFinderModal()" class="bg-[#121212] hover:bg-[#1E1E1E] text-[#F5EFE4] border border-[#282828] hover:border-[#C9A15A] px-5 sm:px-7 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm transition-all duration-300 flex items-center justify-center gap-2">
+                            <button onclick="openMugFinderModal()" class="bg-[#121212] hover:bg-[#1E1E1E] text-[#F5EFE4] border border-[#282828] hover:border-[#C9A15A] px-7 py-4 rounded-full text-sm transition-all duration-300 flex items-center gap-2">
                                 <i class="fa-solid fa-compass text-[#C9A15A]"></i>
                                 <span>دليل اختيار الكوب المناسب</span>
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-3 sm:gap-4 pt-6 border-t border-[#282828]/60 max-w-lg mx-auto lg:mx-0">
+                        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-[#282828]/60 max-w-lg mx-auto lg:mx-0">
                             <div>
-                                <span class="block font-bold text-lg sm:text-2xl text-white">24h+</span>
-                                <span class="text-[10px] sm:text-[11px] text-[#8A8A8A]">حفظ الحرارة</span>
+                                <span class="block font-bold text-xl sm:text-2xl text-white">24h+</span>
+                                <span class="text-[11px] text-[#8A8A8A]">حفظ درجة الحرارة</span>
                             </div>
                             <div>
-                                <span class="block font-bold text-lg sm:text-2xl text-white">100%</span>
-                                <span class="text-[10px] sm:text-[11px] text-[#8A8A8A]">مانع للتسريب</span>
+                                <span class="block font-bold text-xl sm:text-2xl text-white">100%</span>
+                                <span class="text-[11px] text-[#8A8A8A]">مانع للتسريب تمامًا</span>
                             </div>
                             <div>
-                                <span class="block font-bold text-lg sm:text-2xl text-white">4.9★</span>
-                                <span class="text-[10px] sm:text-[11px] text-[#8A8A8A]">تقييم العملاء</span>
+                                <span class="block font-bold text-xl sm:text-2xl text-white">4.9★</span>
+                                <span class="text-[11px] text-[#8A8A8A]">تقييم 1,500+ عميل</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="lg:col-span-5 relative flex justify-center w-full">
-                        <div class="relative w-full max-w-xs sm:max-w-sm aspect-square rounded-2xl sm:rounded-3xl bg-gradient-to-tr from-[#161616] to-[#0B0B0B] border border-[#C9A15A]/30 p-4 sm:p-6 shadow-2xl flex flex-col justify-between overflow-hidden group">
+                    <div class="lg:col-span-5 relative flex justify-center">
+                        <div class="relative w-full max-w-sm aspect-square rounded-3xl bg-gradient-to-tr from-[#161616] to-[#0B0B0B] border border-[#C9A15A]/30 p-6 shadow-2xl flex flex-col justify-between overflow-hidden group">
                             
-                            <span class="absolute top-3 sm:top-4 right-3 sm:right-4 bg-[#C9A15A] text-[#050505] text-[9px] sm:text-[10px] font-black px-2.5 sm:px-3 py-1 rounded-full uppercase tracking-wider z-10">
+                            <span class="absolute top-4 right-4 bg-[#C9A15A] text-[#050505] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">
                                 الأكثر مبيعًا
                             </span>
 
-                            <div class="w-full h-full flex items-center justify-center p-2 sm:p-4">
-                                <img id="heroShowcaseImg" src="https://i.postimg.cc/J0Md6Skc/Whats-App-Image-2026-09-09-at-6-50-26-PM.jpg" alt="MUGORA Flagship Mug" 
-                                     class="max-h-48 sm:max-h-64 object-contain img-glow transition-all duration-500">
+                            <div class="w-full h-full flex items-center justify-center p-4">
+                                <img id="heroShowcaseImg" src="1/WhatsApp%20Image%202026-09-09%20at%206.49.16%20PM.jpeg" alt="MUGORA Flagship Mug"
+                                     class="max-h-64 object-contain img-glow transition-all duration-500">
                             </div>
 
-                            <div class="space-y-1 bg-[#0B0B0B]/80 backdrop-blur-md p-3 rounded-xl sm:rounded-2xl border border-[#282828]">
-                                <div class="flex justify-between items-center gap-2">
-                                    <span class="text-[10px] sm:text-xs font-bold text-white truncate">كوب MUGORA الذكي - الإصدار الذهبي</span>
-                                    <span class="text-[10px] sm:text-xs font-bold text-[#E8CA8C] whitespace-nowrap">650 ج.م</span>
+                            <div class="space-y-1 bg-[#0B0B0B]/80 backdrop-blur-md p-3.5 rounded-2xl border border-[#282828]">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-white">كوب MUGORA الذكي - الإصدار الذهبي</span>
+                                    <span class="text-xs font-bold text-[#E8CA8C]">650 ج.م</span>
                                 </div>
-                                <p class="text-[9px] sm:text-[10px] text-[#8A8A8A]">عزل إمبراطوري ثلاثي الطبقات</p>
+                                <p class="text-[10px] text-[#8A8A8A]">عزل إمبراطوري ثلاثي الطبقات متوافق مع حامل كوب السيارة</p>
                             </div>
                         </div>
                     </div>
@@ -435,65 +355,65 @@
             </div>
 
             <!-- Value Propositions Strip -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="bg-[#121212] border border-[#282828] p-3 sm:p-5 rounded-2xl flex items-center gap-3 sm:gap-4 hover:border-[#C9A15A]/40 transition-colors">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-base sm:text-xl flex-shrink-0">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-[#121212] border border-[#282828] p-5 rounded-2xl flex items-center gap-4 hover:border-[#C9A15A]/40 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-xl flex-shrink-0">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <div class="min-w-0">
-                        <h4 class="text-[11px] sm:text-sm font-bold text-white truncate">ضمان MUGORA</h4>
-                        <p class="text-[9px] sm:text-[11px] text-[#8A8A8A] mt-0.5 leading-tight">ضمان 12 شهرًا</p>
+                    <div>
+                        <h4 class="text-xs sm:text-sm font-bold text-white">ضمان MUGORA الذهبي</h4>
+                        <p class="text-[11px] text-[#8A8A8A] mt-0.5">ضمان استبدال شامل 12 شهرًا</p>
                     </div>
                 </div>
 
-                <div class="bg-[#121212] border border-[#282828] p-3 sm:p-5 rounded-2xl flex items-center gap-3 sm:gap-4 hover:border-[#C9A15A]/40 transition-colors">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-base sm:text-xl flex-shrink-0">
+                <div class="bg-[#121212] border border-[#282828] p-5 rounded-2xl flex items-center gap-4 hover:border-[#C9A15A]/40 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-xl flex-shrink-0">
                         <i class="fa-solid fa-truck-fast"></i>
                     </div>
-                    <div class="min-w-0">
-                        <h4 class="text-[11px] sm:text-sm font-bold text-white truncate">شحن سريع</h4>
-                        <p class="text-[9px] sm:text-[11px] text-[#8A8A8A] mt-0.5 leading-tight">توصيل 24-48 ساعة</p>
+                    <div>
+                        <h4 class="text-xs sm:text-sm font-bold text-white">شحن سريع ومُؤمّن</h4>
+                        <p class="text-[11px] text-[#8A8A8A] mt-0.5">توصيل خلال 24 - 48 ساعة</p>
                     </div>
                 </div>
 
-                <div class="bg-[#121212] border border-[#282828] p-3 sm:p-5 rounded-2xl flex items-center gap-3 sm:gap-4 hover:border-[#C9A15A]/40 transition-colors">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-base sm:text-xl flex-shrink-0">
+                <div class="bg-[#121212] border border-[#282828] p-5 rounded-2xl flex items-center gap-4 hover:border-[#C9A15A]/40 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-xl flex-shrink-0">
                         <i class="fa-solid fa-temperature-arrow-up"></i>
                     </div>
-                    <div class="min-w-0">
-                        <h4 class="text-[11px] sm:text-sm font-bold text-white truncate">حفظ فائق</h4>
-                        <p class="text-[9px] sm:text-[11px] text-[#8A8A8A] mt-0.5 leading-tight">سخونة أو برودة</p>
+                    <div>
+                        <h4 class="text-xs sm:text-sm font-bold text-white">حفظ حرارة فائق</h4>
+                        <p class="text-[11px] text-[#8A8A8A] mt-0.5">سخونة أو برودة طوال اليوم</p>
                     </div>
                 </div>
 
-                <div class="bg-[#121212] border border-[#282828] p-3 sm:p-5 rounded-2xl flex items-center gap-3 sm:gap-4 hover:border-[#C9A15A]/40 transition-colors">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-base sm:text-xl flex-shrink-0">
+                <div class="bg-[#121212] border border-[#282828] p-5 rounded-2xl flex items-center gap-4 hover:border-[#C9A15A]/40 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-xl flex-shrink-0">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                     </div>
-                    <div class="min-w-0">
-                        <h4 class="text-[11px] sm:text-sm font-bold text-white truncate">إرجاع سهل</h4>
-                        <p class="text-[9px] sm:text-[11px] text-[#8A8A8A] mt-0.5 leading-tight">خلال 14 يوم</p>
+                    <div>
+                        <h4 class="text-xs sm:text-sm font-bold text-white">إرجاع سهل وفوري</h4>
+                        <p class="text-[11px] text-[#8A8A8A] mt-0.5">خلال 14 يوم بدون تعقيدات</p>
                     </div>
                 </div>
             </div>
 
             <!-- Filter & Category Section Header -->
-            <div id="productsSection" class="scroll-mt-32 space-y-6">
+            <div id="productsSection" class="scroll-mt-28 space-y-6">
                 
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#282828] pb-5 sm:pb-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#282828] pb-6">
                     <div>
-                        <div class="flex items-center gap-2 text-[10px] sm:text-xs text-[#C9A15A] font-bold uppercase tracking-wider mb-1">
+                        <div class="flex items-center gap-2 text-xs text-[#C9A15A] font-bold uppercase tracking-wider mb-1">
                             <i class="fa-solid fa-gem"></i> تشكيلة 2026 الحصرية
                         </div>
-                        <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white">منتجات MUGORA الفاخرة</h2>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">منتجات MUGORA الفاخرة</h2>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                        <span id="productCount" class="text-[10px] sm:text-xs text-[#E8CA8C] bg-[#121212] px-3 py-2 rounded-full border border-[#282828] whitespace-nowrap">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span id="productCount" class="text-xs text-[#E8CA8C] bg-[#121212] px-3.5 py-2 rounded-full border border-[#282828]">
                             عرض 0 منتج
                         </span>
 
-                        <select id="sortSelect" onchange="handleSort(this.value)" class="bg-[#121212] text-[10px] sm:text-xs text-[#F5EFE4] px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border border-[#282828] focus:outline-none focus:border-[#C9A15A]">
+                        <select id="sortSelect" onchange="handleSort(this.value)" class="bg-[#121212] text-xs text-[#F5EFE4] px-4 py-2.5 rounded-full border border-[#282828] focus:outline-none focus:border-[#C9A15A]">
                             <option value="default">الترتيب الافتراضي</option>
                             <option value="price-asc">السعر: من الأقل للأعلى</option>
                             <option value="price-desc">السعر: من الأعلى للأقل</option>
@@ -502,33 +422,33 @@
                     </div>
                 </div>
 
-                <div id="categoryPills" class="flex items-center gap-2 sm:gap-3 overflow-x-auto hide-scrollbar pb-2 -mx-3 px-3 sm:mx-0 sm:px-0">
+                <div id="categoryPills" class="flex items-center gap-3 overflow-x-auto hide-scrollbar pb-2">
                     <!-- Rendered by JS -->
                 </div>
 
-                <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+                <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                     <!-- Rendered dynamically by JS -->
                 </div>
 
-                <div id="emptyState" class="hidden text-center py-16 sm:py-20 bg-[#0B0B0B] rounded-2xl sm:rounded-3xl border border-[#282828] px-4">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 rounded-2xl bg-[#121212] border border-[#282828] flex items-center justify-center text-[#C9A15A] text-2xl sm:text-3xl">
+                <div id="emptyState" class="hidden text-center py-20 bg-[#0B0B0B] rounded-3xl border border-[#282828]">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-[#121212] border border-[#282828] flex items-center justify-center text-[#C9A15A] text-3xl">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
-                    <h3 class="text-base sm:text-xl font-bold text-white mb-2">لم نجد أي نتائج مطابقة لبحثك</h3>
-                    <p class="text-[11px] sm:text-xs text-[#8A8A8A] mb-6 max-w-md mx-auto">تأكد من كتابة الاسم بطريقة صحيحة أو قم بتصفح جميع الفئات المتاحة.</p>
-                    <button onclick="resetFilters()" class="gold-button-gradient text-[#050505] text-xs font-extrabold px-6 sm:px-8 py-3 rounded-full shadow-lg">
+                    <h3 class="text-xl font-bold text-white mb-2">لم نجد أي نتائج مطابقة لبحثك</h3>
+                    <p class="text-xs text-[#8A8A8A] mb-6 max-w-md mx-auto">تأكد من كتابة الاسم بطريقة صحيحة أو قم بتصفح جميع الفئات المتاحة.</p>
+                    <button onclick="resetFilters()" class="gold-button-gradient text-[#050505] text-xs font-extrabold px-8 py-3 rounded-full shadow-lg">
                         إعادة عرض كافة المنتجات
                     </button>
                 </div>
 
             </div>
 
-            <!-- Customer Reviews Section -->
-            <div class="bg-[#0B0B0B] border border-[#282828] rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-center space-y-5 sm:space-y-6">
-                <div class="flex justify-center gap-1 text-[#C9A15A] text-base sm:text-lg">
+            <!-- Customer Reviews Banner Section -->
+            <div class="bg-[#0B0B0B] border border-[#282828] rounded-3xl p-8 sm:p-12 text-center space-y-6">
+                <div class="flex justify-center gap-1 text-[#C9A15A] text-lg">
                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                 </div>
-                <blockquote class="font-serif text-base sm:text-2xl text-white max-w-3xl mx-auto italic leading-relaxed">
+                <blockquote class="font-serif text-lg sm:text-2xl text-white max-w-3xl mx-auto italic leading-relaxed">
                     "كوب MUGORA الذكي غير مفهومي لمشروبات القهوة أثناء التنقل. حفظ الحرارة استثنائي والخامات تشعرك بالفخامة في كل تفصيلة."
                 </blockquote>
                 <div class="text-xs text-[#8A8A8A]">
@@ -540,66 +460,66 @@
         </section>
 
         <!-- ================= TAB 2: SHOP VIEW ================= -->
-        <section id="tabShop" class="hidden space-y-6 sm:space-y-8">
-            <div class="bg-[#0B0B0B] p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#282828] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <section id="tabShop" class="hidden space-y-8">
+            <div class="bg-[#0B0B0B] p-8 rounded-3xl border border-[#282828] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white">المتجر الكامل - MUGORA</h1>
-                    <p class="text-[11px] sm:text-sm text-[#8A8A8A] mt-1">استعرض كافة الإصدارات الحرارية والذكية بأعلى معايير التصميم والجودة.</p>
+                    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-white">المتجر الكامل - MUGORA</h1>
+                    <p class="text-xs sm:text-sm text-[#8A8A8A] mt-1">استعرض كافة الإصدارات الحرارية والذكية بأعلى معايير التصميم والجودة.</p>
                 </div>
-                <div class="flex items-center gap-2 text-[10px] sm:text-xs text-[#E8CA8C] bg-[#121212] px-3 sm:px-4 py-2 rounded-full border border-[#282828] whitespace-nowrap">
-                    <i class="fa-solid fa-check-circle"></i> تسليم فوري
+                <div class="flex items-center gap-2 text-xs text-[#E8CA8C] bg-[#121212] px-4 py-2 rounded-full border border-[#282828]">
+                    <i class="fa-solid fa-check-circle"></i> جميع المنتجات متوفرة وتسليم فوري
                 </div>
             </div>
 
-            <div id="shopProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+            <div id="shopProductsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 <!-- JS Populated -->
             </div>
         </section>
 
         <!-- ================= TAB 3: WISHLIST VIEW ================= -->
-        <section id="tabWishlist" class="hidden space-y-6 sm:space-y-8">
-            <div class="bg-[#0B0B0B] p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#282828] flex items-center justify-between gap-3">
+        <section id="tabWishlist" class="hidden space-y-8">
+            <div class="bg-[#0B0B0B] p-8 rounded-3xl border border-[#282828] flex items-center justify-between">
                 <div>
-                    <h1 class="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-white">قائمة المفضلة</h1>
-                    <p class="text-[11px] sm:text-sm text-[#8A8A8A] mt-1">المنتجات المحفوظة للشراء لاحقًا</p>
+                    <h1 class="font-serif text-3xl font-bold text-white">قائمة المفضلة الخاصة بك</h1>
+                    <p class="text-xs sm:text-sm text-[#8A8A8A] mt-1">المنتجات التي قمت بحفظها للشراء لاحقًا</p>
                 </div>
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-xl sm:text-2xl flex-shrink-0">
+                <div class="w-12 h-12 rounded-2xl bg-[#C9A15A]/10 border border-[#C9A15A]/30 flex items-center justify-center text-[#C9A15A] text-2xl">
                     <i class="fa-solid fa-heart"></i>
                 </div>
             </div>
 
-            <div id="wishlistGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+            <div id="wishlistGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 <!-- JS Populated -->
             </div>
 
-            <div id="emptyWishlist" class="hidden text-center py-16 sm:py-20 bg-[#0B0B0B] rounded-2xl sm:rounded-3xl border border-[#282828] px-4">
-                <i class="fa-regular fa-heart text-4xl sm:text-5xl text-[#8A8A8A] mb-4 block"></i>
-                <h3 class="text-base sm:text-lg font-bold text-white mb-1">قائمة المفضلة فارغة</h3>
-                <p class="text-[11px] sm:text-xs text-[#8A8A8A] mb-6">اضغط على زر القلب الموجود في صور المنتجات لإضافتها هنا.</p>
-                <button onclick="switchTab('home')" class="gold-button-gradient text-[#050505] text-xs font-bold px-6 sm:px-8 py-3 rounded-full">
+            <div id="emptyWishlist" class="hidden text-center py-20 bg-[#0B0B0B] rounded-3xl border border-[#282828]">
+                <i class="fa-regular fa-heart text-5xl text-[#8A8A8A] mb-4 block"></i>
+                <h3 class="text-lg font-bold text-white mb-1">قائمة المفضلة فارغة</h3>
+                <p class="text-xs text-[#8A8A8A] mb-6">اضغط على زر القلب الموجود في صور المنتجات لإضافتها هنا.</p>
+                <button onclick="switchTab('home')" class="gold-button-gradient text-[#050505] text-xs font-bold px-8 py-3 rounded-full">
                     تصفح المنتجات الآن
                 </button>
             </div>
         </section>
 
         <!-- ================= TAB 4: CART VIEW ================= -->
-        <section id="tabCart" class="hidden space-y-6 sm:space-y-8">
-            <div class="bg-[#0B0B0B] p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#282828]">
-                <h1 class="font-serif text-xl sm:text-3xl font-bold text-white">سلة التسوق</h1>
-                <p class="text-[11px] sm:text-sm text-[#8A8A8A] mt-1">راجع المنتجات وتأكد من تطبيق كود الخصم.</p>
+        <section id="tabCart" class="hidden space-y-8">
+            <div class="bg-[#0B0B0B] p-8 rounded-3xl border border-[#282828]">
+                <h1 class="font-serif text-3xl font-bold text-white">سلة التسوق - MUGORA</h1>
+                <p class="text-xs sm:text-sm text-[#8A8A8A] mt-1">راجع المنتجات المحددة وتأكد من تطبيق كود الخصم للحصول على أفضل سعر.</p>
             </div>
 
-            <div id="cartContent" class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
-                <div id="cartList" class="lg:col-span-8 space-y-3 sm:space-y-4">
+            <div id="cartContent" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div id="cartList" class="lg:col-span-8 space-y-4">
                     <!-- Dynamic cart list JS -->
                 </div>
 
                 <div class="lg:col-span-4">
-                    <div class="bg-[#0B0B0B] p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#282828] space-y-5 sm:space-y-6 lg:sticky lg:top-28 shadow-2xl">
-                        <h3 class="font-serif text-lg sm:text-xl font-bold text-white border-b border-[#282828] pb-4">ملخص الطلب</h3>
+                    <div class="bg-[#0B0B0B] p-6 rounded-3xl border border-[#282828] space-y-6 sticky top-28 shadow-2xl">
+                        <h3 class="font-serif text-xl font-bold text-white border-b border-[#282828] pb-4">ملخص الطلب</h3>
                         
-                        <div class="bg-[#121212] p-3.5 sm:p-4 rounded-2xl border border-[#282828] space-y-2">
-                            <div class="flex justify-between text-[10px] sm:text-xs font-semibold">
+                        <div class="bg-[#121212] p-4 rounded-2xl border border-[#282828] space-y-2">
+                            <div class="flex justify-between text-xs font-semibold">
                                 <span class="text-[#8A8A8A]">مؤشر الشحن المجاني:</span>
                                 <span id="freeShippingStatus" class="text-[#E8CA8C]">0 / 1200 ج.م</span>
                             </div>
@@ -609,17 +529,17 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-[11px] sm:text-xs text-[#8A8A8A] font-medium block">هل لديك كود خصم؟</label>
+                            <label class="text-xs text-[#8A8A8A] font-medium block">هل لديك كود خصم؟</label>
                             <div class="flex gap-2">
-                                <input type="text" id="couponInput" placeholder="مثال: MUGORA10" class="flex-1 min-w-0 bg-[#121212] text-[11px] sm:text-xs text-white p-3 rounded-xl border border-[#282828] uppercase focus:outline-none focus:border-[#C9A15A]">
-                                <button onclick="applyCoupon()" class="bg-[#1A1A1A] hover:bg-[#252525] text-[#E8CA8C] border border-[#C9A15A]/40 text-[11px] sm:text-xs font-bold px-3 sm:px-4 rounded-xl transition-colors flex-shrink-0">
+                                <input type="text" id="couponInput" placeholder="أدخل الكود (مثال: MUGORA10)" class="flex-1 bg-[#121212] text-xs text-white p-3 rounded-xl border border-[#282828] uppercase focus:outline-none focus:border-[#C9A15A]">
+                                <button onclick="applyCoupon()" class="bg-[#1A1A1A] hover:bg-[#252525] text-[#E8CA8C] border border-[#C9A15A]/40 text-xs font-bold px-4 rounded-xl transition-colors">
                                     تطبيق
                                 </button>
                             </div>
-                            <p id="couponMsg" class="text-[10px] sm:text-[11px] hidden"></p>
+                            <p id="couponMsg" class="text-[11px] hidden"></p>
                         </div>
 
-                        <div class="space-y-3 text-[11px] sm:text-xs border-t border-[#282828] pt-4">
+                        <div class="space-y-3 text-xs border-t border-[#282828] pt-4">
                             <div class="flex justify-between text-[#8A8A8A]">
                                 <span>المجموع الفرعي</span>
                                 <span id="cartSubtotal" class="text-white font-medium">0 ج.م</span>
@@ -629,16 +549,16 @@
                                 <span id="cartDiscountAmount">-0 ج.م</span>
                             </div>
                             <div class="flex justify-between text-[#8A8A8A]">
-                                <span>رسوم التوصيل</span>
+                                <span>رسوم التوصيل الشفاف</span>
                                 <span id="cartDelivery" class="text-[#E8CA8C] font-medium">50 ج.م</span>
                             </div>
-                            <div class="border-t border-[#282828] pt-3 flex justify-between font-bold text-sm sm:text-base text-white">
+                            <div class="border-t border-[#282828] pt-3 flex justify-between font-bold text-base text-white">
                                 <span>الإجمالي النهائي</span>
-                                <span id="cartTotal" class="gold-gradient-text text-lg sm:text-xl">0 ج.م</span>
+                                <span id="cartTotal" class="gold-gradient-text text-xl">0 ج.م</span>
                             </div>
                         </div>
 
-                        <button onclick="openCheckoutModal()" class="w-full gold-button-gradient text-[#050505] font-black py-3.5 sm:py-4 rounded-full text-xs sm:text-sm shadow-gold-lg flex items-center justify-center gap-2">
+                        <button onclick="openCheckoutModal()" class="w-full gold-button-gradient text-[#050505] font-black py-4 rounded-full text-sm shadow-gold-lg flex items-center justify-center gap-2">
                             <span>المتابعة لإتمام الشراء</span>
                             <i class="fa-solid fa-shield-cat text-xs"></i>
                         </button>
@@ -646,34 +566,34 @@
                 </div>
             </div>
 
-            <div id="emptyCart" class="hidden text-center py-16 sm:py-20 bg-[#0B0B0B] rounded-2xl sm:rounded-3xl border border-[#282828] px-4">
-                <i class="fa-solid fa-bag-shopping text-4xl sm:text-5xl text-[#8A8A8A] mb-4 block"></i>
-                <h3 class="text-base sm:text-xl font-bold text-white mb-1">سلة التسوق فارغة حاليًا</h3>
-                <p class="text-[11px] sm:text-xs text-[#8A8A8A] mb-6">استكشف منتجاتنا وأضف ما يعجبك إلى السلة.</p>
-                <button onclick="switchTab('home')" class="gold-button-gradient text-[#050505] text-xs font-bold px-6 sm:px-8 py-3 rounded-full">
+            <div id="emptyCart" class="hidden text-center py-20 bg-[#0B0B0B] rounded-3xl border border-[#282828]">
+                <i class="fa-solid fa-bag-shopping text-5xl text-[#8A8A8A] mb-4 block"></i>
+                <h3 class="text-xl font-bold text-white mb-1">سلة التسوق فارغة حاليًا</h3>
+                <p class="text-xs text-[#8A8A8A] mb-6">استكشف منتجاتنا الحرارية والذكية وأضف ما يعجبك إلى السلة.</p>
+                <button onclick="switchTab('home')" class="gold-button-gradient text-[#050505] text-xs font-bold px-8 py-3 rounded-full">
                     ابدأ التسوق الآن
                 </button>
             </div>
         </section>
 
         <!-- ================= TAB 5: PROFILE VIEW ================= -->
-        <section id="tabProfile" class="hidden space-y-6 sm:space-y-8 max-w-2xl mx-auto">
-            <div class="bg-[#0B0B0B] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#282828] text-center space-y-4">
-                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#C9A15A] to-[#050505] p-1 mx-auto shadow-gold-glow">
-                    <div class="w-full h-full bg-[#121212] rounded-full flex items-center justify-center text-[#E8CA8C] text-2xl sm:text-3xl font-black font-serif">
+        <section id="tabProfile" class="hidden space-y-8 max-w-2xl mx-auto">
+            <div class="bg-[#0B0B0B] p-8 rounded-3xl border border-[#282828] text-center space-y-4">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-[#C9A15A] to-[#050505] p-1 mx-auto shadow-gold-glow">
+                    <div class="w-full h-full bg-[#121212] rounded-full flex items-center justify-center text-[#E8CA8C] text-3xl font-black font-serif">
                         M
                     </div>
                 </div>
                 <div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-white">عميل MUGORA المميز</h2>
+                    <h2 class="text-2xl font-bold text-white">عميل MUGORA المميز</h2>
                     <span class="inline-block bg-[#C9A15A]/10 border border-[#C9A15A]/30 text-[#E8CA8C] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mt-1">
                         عضو الفئة الذهبية VIP
                     </span>
                 </div>
             </div>
 
-            <div class="bg-[#0B0B0B] p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#282828] space-y-5">
-                <h3 class="font-serif text-base sm:text-lg font-bold text-white border-b border-[#282828] pb-3">بيانات التوصيل والتواصل</h3>
+            <div class="bg-[#0B0B0B] p-8 rounded-3xl border border-[#282828] space-y-5">
+                <h3 class="font-serif text-lg font-bold text-white border-b border-[#282828] pb-3">بيانات التوصيل والتواصل المسجلة</h3>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div>
@@ -681,16 +601,16 @@
                         <input type="text" id="profName" value="عميل موجورا الفاخر" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none">
                     </div>
                     <div>
-                        <label class="text-[#8A8A8A] block mb-1 font-medium">رقم الهاتف</label>
+                        <label class="text-[#8A8A8A] block mb-1 font-medium">رقم الهاتف الأساسي</label>
                         <input type="text" id="profPhone" value="+20 10 92786721" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none">
                     </div>
                     <div class="sm:col-span-2">
-                        <label class="text-[#8A8A8A] block mb-1 font-medium">العنوان المفضل</label>
+                        <label class="text-[#8A8A8A] block mb-1 font-medium">العنوان المفضل بالتفصيل</label>
                         <input type="text" id="profAddress" value="القاهرة - مصر" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none">
                     </div>
                 </div>
 
-                <button onclick="saveProfile()" class="gold-button-gradient text-[#050505] text-xs font-extrabold px-6 sm:px-8 py-3 rounded-full shadow-lg w-full sm:w-auto">
+                <button onclick="saveProfile()" class="gold-button-gradient text-[#050505] text-xs font-extrabold px-8 py-3 rounded-full shadow-lg">
                     حفظ التغييرات
                 </button>
             </div>
@@ -699,49 +619,50 @@
     </main>
 
     <!-- 1. PRODUCT DETAILS MODAL -->
-    <div id="productModal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-        <div class="bg-[#0B0B0B] border border-[#282828] rounded-2xl sm:rounded-3xl max-w-4xl w-full p-4 sm:p-8 lg:p-10 relative shadow-2xl modal-panel my-auto">
-            <button onclick="closeProductModal()" class="absolute top-3 left-3 sm:top-5 sm:left-5 text-[#8A8A8A] hover:text-white w-9 h-9 rounded-full bg-[#121212] border border-[#282828] flex items-center justify-center transition-colors z-10">
-                <i class="fa-solid fa-xmark text-base sm:text-lg"></i>
+    <div id="productModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+        <div class="bg-[#0B0B0B] border border-[#282828] rounded-3xl max-w-4xl w-full p-6 sm:p-10 relative shadow-2xl my-8">
+            <button onclick="closeProductModal()" class="absolute top-5 left-5 text-[#8A8A8A] hover:text-white w-9 h-9 rounded-full bg-[#121212] border border-[#282828] flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 items-center pt-8 md:pt-0">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 
-                <div class="relative bg-[#121212] rounded-2xl p-4 sm:p-6 border border-[#282828] flex items-center justify-center h-64 sm:h-80 lg:h-96 group">
+                <div class="relative bg-[#121212] rounded-2xl p-6 border border-[#282828] flex items-center justify-center h-80 sm:h-96 group">
                     <img id="modalImg" src="" alt="MUGORA Product" class="max-h-full max-w-full object-contain img-glow transition-transform duration-500">
                     
-                    <button onclick="openFullScreenImage()" class="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-[#0B0B0B]/90 text-[#E8CA8C] border border-[#282828] hover:border-[#C9A15A] p-2 sm:p-2.5 rounded-xl text-[10px] sm:text-xs backdrop-blur-sm transition-all flex items-center gap-1.5" title="عرض الحجم الكامل">
+                    <button onclick="openFullScreenImage()" class="absolute bottom-4 right-4 bg-[#0B0B0B]/90 text-[#E8CA8C] border border-[#282828] hover:border-[#C9A15A] p-2.5 rounded-xl text-xs backdrop-blur-sm transition-all flex items-center gap-1.5" title="عرض الحجم الكامل">
                         <i class="fa-solid fa-expand"></i>
-                        <span class="hidden sm:inline">تكبير الصورة</span>
+                        <span>تكبير الصورة</span>
                     </button>
+                    <span id="modalBadge" class="hidden absolute top-4 right-4 bg-[#C9A15A] text-[#050505] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">NEW</span>
                 </div>
 
-                <div class="space-y-4 sm:space-y-5">
-                    <div class="flex items-center justify-between gap-2">
-                        <span id="modalCategory" class="text-[10px] sm:text-xs font-bold text-[#C9A15A] uppercase tracking-wider">الفئة</span>
-                        <div id="modalStars" class="flex items-center gap-1 text-[#C9A15A] text-[10px] sm:text-xs"></div>
+                <div class="space-y-5">
+                    <div class="flex items-center justify-between">
+                        <span id="modalCategory" class="text-xs font-bold text-[#C9A15A] uppercase tracking-wider">الفئة</span>
+                        <div id="modalStars" class="flex items-center gap-1 text-[#C9A15A] text-xs"></div>
                     </div>
 
-                    <h2 id="modalTitle" class="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-snug">اسم المنتج</h2>
+                    <h2 id="modalTitle" class="font-serif text-2xl sm:text-3xl font-bold text-white leading-snug">اسم المنتج</h2>
 
-                    <div class="flex items-baseline gap-3 border-b border-[#282828] pb-3 sm:pb-4">
-                        <span id="modalPrice" class="font-black text-xl sm:text-2xl lg:text-3xl gold-gradient-text">0 ج.م</span>
-                        <span id="modalOriginalPrice" class="hidden text-xs sm:text-sm text-[#8A8A8A] line-through">0 ج.م</span>
+                    <div class="flex items-baseline gap-3 border-b border-[#282828] pb-4">
+                        <span id="modalPrice" class="font-black text-2xl sm:text-3xl gold-gradient-text">0 ج.م</span>
+                        <span id="modalOriginalPrice" class="hidden text-sm text-[#8A8A8A] line-through">0 ج.م</span>
                     </div>
 
-                    <p id="modalDesc" class="text-[11px] sm:text-sm text-[#8A8A8A] leading-relaxed">
-                        وصف التفاصيل الفنية.
+                    <p id="modalDesc" class="text-xs sm:text-sm text-[#8A8A8A] leading-relaxed">
+                        وصف التفاصيل الفنية وتكنولوجيا العزل الحراري.
                     </p>
 
-                    <div class="grid grid-cols-2 gap-2 text-[10px] sm:text-[11px] text-[#F5EFE4] bg-[#121212] p-3 rounded-xl border border-[#282828]">
-                        <div class="flex items-center gap-1.5 sm:gap-2"><i class="fa-solid fa-snowflake text-[#C9A15A]"></i> 12س برودة</div>
-                        <div class="flex items-center gap-1.5 sm:gap-2"><i class="fa-solid fa-fire text-[#C9A15A]"></i> 12س سخونة</div>
-                        <div class="flex items-center gap-1.5 sm:gap-2"><i class="fa-solid fa-car text-[#C9A15A]"></i> حامل السيارة</div>
-                        <div class="flex items-center gap-1.5 sm:gap-2"><i class="fa-solid fa-leaf text-[#C9A15A]"></i> خالي من BPA</div>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] text-[#F5EFE4] bg-[#121212] p-3 rounded-xl border border-[#282828]">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-snowflake text-[#C9A15A]"></i> 12 ساعة برودة</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-fire text-[#C9A15A]"></i> 12 ساعة سخونة</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-car text-[#C9A15A]"></i> يناسب حامل السيارة</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-leaf text-[#C9A15A]"></i> خالي من BPA</div>
                     </div>
 
                     <div class="pt-1">
-                        <label class="text-[10px] sm:text-xs text-[#8A8A8A] block mb-2 font-semibold">الكمية:</label>
+                        <label class="text-xs text-[#8A8A8A] block mb-2 font-semibold">تحديد الكمية المطلوب إضافتها:</label>
                         <div class="inline-flex items-center bg-[#121212] rounded-xl border border-[#282828]">
                             <button onclick="adjustModalQty(-1)" class="w-10 h-10 flex items-center justify-center text-[#F5EFE4] hover:text-[#C9A15A] text-base font-bold">-</button>
                             <span id="modalQty" class="w-12 text-center text-sm font-bold text-white">1</span>
@@ -749,12 +670,12 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2 sm:gap-3 pt-3">
-                        <button onclick="addModalItemToCart()" class="flex-1 gold-button-gradient text-[#050505] font-extrabold py-3.5 rounded-full text-[11px] sm:text-sm flex items-center justify-center gap-2 shadow-gold-lg">
+                    <div class="flex items-center gap-3 pt-3">
+                        <button onclick="addModalItemToCart()" class="flex-1 gold-button-gradient text-[#050505] font-extrabold py-3.5 rounded-full text-xs sm:text-sm flex items-center justify-center gap-2 shadow-gold-lg">
                             <i class="fa-solid fa-bag-shopping"></i>
-                            <span>إضافة إلى السلة</span>
+                            <span>إضافة إلى سلة التسوق</span>
                         </button>
-                        <button onclick="toggleModalWishlist()" id="modalWishBtn" class="p-3.5 bg-[#121212] hover:bg-[#1A1A1A] border border-[#282828] text-[#F5EFE4] rounded-full transition-colors flex-shrink-0">
+                        <button onclick="toggleModalWishlist()" id="modalWishBtn" class="p-3.5 bg-[#121212] hover:bg-[#1A1A1A] border border-[#282828] text-[#F5EFE4] rounded-full transition-colors">
                             <i class="fa-regular fa-heart text-base"></i>
                         </button>
                     </div>
@@ -765,43 +686,43 @@
     </div>
 
     <!-- 2. FULLSCREEN IMAGE MODAL -->
-    <div id="fullScreenModal" class="modal-overlay fixed inset-0 z-[80] hidden items-center justify-center p-4 bg-black/95">
-        <button onclick="closeFullScreenImage()" class="absolute top-4 left-4 sm:top-6 sm:left-6 text-white text-2xl hover:text-[#C9A15A] transition-colors w-10 h-10 flex items-center justify-center z-10">
+    <div id="fullScreenModal" class="fixed inset-0 z-[80] hidden bg-black/95 flex items-center justify-center p-4">
+        <button onclick="closeFullScreenImage()" class="absolute top-6 left-6 text-white text-2xl hover:text-[#C9A15A] transition-colors">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <img id="fullScreenImg" src="" alt="MUGORA Fullscreen Preview" class="max-h-[85vh] max-w-[95vw] object-contain">
+        <img id="fullScreenImg" src="" alt="MUGORA Fullscreen Preview" class="max-h-[90vh] max-w-[90vw] object-contain">
     </div>
 
     <!-- 3. MUG FINDER / ADVISOR MODAL -->
-    <div id="mugFinderModal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
-        <div class="bg-[#0B0B0B] border border-[#282828] rounded-2xl sm:rounded-3xl max-w-lg w-full p-5 sm:p-8 relative shadow-2xl space-y-5 sm:space-y-6 modal-panel my-auto">
-            <button onclick="closeMugFinderModal()" class="absolute top-3 left-3 sm:top-5 sm:left-5 text-[#8A8A8A] hover:text-white w-8 h-8 rounded-full bg-[#121212] flex items-center justify-center">
+    <div id="mugFinderModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-[#0B0B0B] border border-[#282828] rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl space-y-6">
+            <button onclick="closeMugFinderModal()" class="absolute top-5 left-5 text-[#8A8A8A] hover:text-white w-8 h-8 rounded-full bg-[#121212] flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <div class="text-center space-y-2 pt-6 sm:pt-0">
+            <div class="text-center space-y-2">
                 <div class="w-12 h-12 rounded-2xl bg-[#C9A15A]/10 text-[#C9A15A] border border-[#C9A15A]/30 flex items-center justify-center mx-auto text-xl">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <h3 class="font-serif text-xl sm:text-2xl font-bold text-white">مستشار MUGORA الذكي</h3>
-                <p class="text-[11px] sm:text-xs text-[#8A8A8A]">أجب عن سؤالين فقط لمساعدتك في اختيار الكوب المثالي.</p>
+                <h3 class="font-serif text-2xl font-bold text-white">مستشار MUGORA الذكي</h3>
+                <p class="text-xs text-[#8A8A8A]">أجب عن سؤالين فقط لمساعدتك في اختيار الكوب الحراري المثالي لاحتياجك.</p>
             </div>
 
             <div class="space-y-4 text-xs">
                 <div>
-                    <label class="text-white font-bold block mb-2 text-xs">1. مجال الاستخدام الأساسي؟</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <button onclick="selectMugUsage('car')" id="useCar" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px] sm:text-xs">🚗 السيارة والتنقل</button>
-                        <button onclick="selectMugUsage('office')" id="useOffice" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px] sm:text-xs">💻 المكتب والدراسة</button>
+                    <label class="text-white font-bold block mb-2">1. ما هو مجال استخدامك الأساسي؟</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="selectMugUsage('car')" id="useCar" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right">🚗 أثناء قيادة السيارة والتنقل</button>
+                        <button onclick="selectMugUsage('office')" id="useOffice" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right">💻 المكتب والدراسة اليومية</button>
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-white font-bold block mb-2 text-xs">2. الفئة السعرية المفضلة؟</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <button onclick="selectMugBudget('450')" id="bud450" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px] sm:text-xs">الاقتصادي (450)</button>
-                        <button onclick="selectMugBudget('600')" id="bud600" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px] sm:text-xs">الكلاسيكي (600)</button>
-                        <button onclick="selectMugBudget('650')" id="bud650" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px] sm:text-xs">الذهبي (650)</button>
+                    <label class="text-white font-bold block mb-2">2. الفئة السعرية المفضلة؟</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="selectMugBudget('450')" id="bud450" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px]">الاقتصادي (450 ج.م)</button>
+                        <button onclick="selectMugBudget('600')" id="bud600" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px]">الكلاسيكي (600 ج.م)</button>
+                        <button onclick="selectMugBudget('650')" id="bud650" class="p-3 rounded-xl border border-[#282828] bg-[#121212] hover:border-[#C9A15A] text-right text-[11px]">الذهبي (650 ج.م)</button>
                     </div>
                 </div>
             </div>
@@ -813,79 +734,79 @@
     </div>
 
     <!-- 4. COMPARISON MODAL -->
-    <div id="compareModal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-        <div class="bg-[#0B0B0B] border border-[#282828] rounded-2xl sm:rounded-3xl max-w-3xl w-full p-5 sm:p-8 relative shadow-2xl space-y-5 sm:space-y-6 modal-panel my-auto">
-            <button onclick="closeCompareModal()" class="absolute top-3 left-3 sm:top-5 sm:left-5 text-[#8A8A8A] hover:text-white w-8 h-8 rounded-full bg-[#121212] flex items-center justify-center z-10">
+    <div id="compareModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+        <div class="bg-[#0B0B0B] border border-[#282828] rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl space-y-6">
+            <button onclick="closeCompareModal()" class="absolute top-5 left-5 text-[#8A8A8A] hover:text-white w-8 h-8 rounded-full bg-[#121212] flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <h3 class="font-serif text-xl sm:text-2xl font-bold text-white border-b border-[#282828] pb-3 pt-6 sm:pt-0">مقارنة موديلات MUGORA</h3>
+            <h3 class="font-serif text-2xl font-bold text-white border-b border-[#282828] pb-3">مقارنة موديلات MUGORA</h3>
 
-            <div id="compareContent" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div id="compareContent" class="grid grid-cols-2 gap-4 text-xs">
                 <!-- JS Populated comparison columns -->
             </div>
         </div>
     </div>
 
-    <!-- 5. CHECKOUT MODAL -->
-    <div id="checkoutModal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-        <div class="bg-[#0B0B0B] border border-[#282828] rounded-2xl sm:rounded-3xl max-w-xl w-full p-5 sm:p-8 relative my-auto shadow-2xl modal-panel">
-            <button onclick="closeCheckoutModal()" class="absolute top-3 left-3 sm:top-5 sm:left-5 text-[#8A8A8A] hover:text-white w-8 h-8 rounded-full bg-[#121212] flex items-center justify-center z-10">
+    <!-- 5. CHECKOUT & DELIVERY MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+        <div class="bg-[#0B0B0B] border border-[#282828] rounded-3xl max-w-xl w-full p-6 sm:p-8 relative my-8 shadow-2xl">
+            <button onclick="closeCheckoutModal()" class="absolute top-5 left-5 text-[#8A8A8A] hover:text-white w-8 h-8 rounded-full bg-[#121212] flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <h2 class="font-serif text-xl sm:text-2xl font-bold text-white mb-2 pt-6 sm:pt-0">إتمام الطلب - MUGORA</h2>
-            <p class="text-[11px] sm:text-xs text-[#8A8A8A] mb-5 sm:mb-6">أدخل معلومات الشحن للتوصيل المباشر</p>
+            <h2 class="font-serif text-2xl font-bold text-white mb-2">إتمام الطلب - MUGORA</h2>
+            <p class="text-xs text-[#8A8A8A] mb-6">أدخل معلومات الشحن للتوصيل المباشر</p>
 
             <form onsubmit="submitOrder(event)" class="space-y-4 text-xs">
                 <div>
-                    <label class="block text-[#8A8A8A] mb-1 font-semibold text-[11px] sm:text-xs">الاسم بالكامل *</label>
-                    <input type="text" required id="custName" placeholder="أدخل اسمك الثلاثي" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none text-xs">
+                    <label class="block text-[#8A8A8A] mb-1 font-semibold">الاسم بالكامل *</label>
+                    <input type="text" required id="custName" placeholder="أدخل اسمك الثلاثي" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-[#8A8A8A] mb-1 font-semibold text-[11px] sm:text-xs">رقم الهاتف *</label>
-                        <input type="tel" required id="custPhone" placeholder="01xxxxxxxxx" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none text-xs">
+                        <label class="block text-[#8A8A8A] mb-1 font-semibold">رقم الهاتف *</label>
+                        <input type="tel" required id="custPhone" placeholder="01xxxxxxxxx" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none">
                     </div>
                     <div>
-                        <label class="block text-[#8A8A8A] mb-1 font-semibold text-[11px] sm:text-xs">المحافظة *</label>
-                        <select id="custGov" onchange="calculateDeliveryFee()" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none text-xs">
-                            <option value="cairo">القاهرة والجيزة (50 ج.م)</option>
-                            <option value="alex">الإسكندرية (60 ج.م)</option>
-                            <option value="delta">وجه بحري (65 ج.م)</option>
-                            <option value="upper">الصعيد (85 ج.م)</option>
+                        <label class="block text-[#8A8A8A] mb-1 font-semibold">المحافظة *</label>
+                        <select id="custGov" onchange="calculateDeliveryFee()" class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none">
+                            <option value="cairo">القاهرة والجيزة (شحن 50 ج.م)</option>
+                            <option value="alex">الإسكندرية (شحن 60 ج.م)</option>
+                            <option value="delta">وجه بحري والمدن الجديدة (شحن 65 ج.م)</option>
+                            <option value="upper">الصعيد والمحافظات النائية (شحن 85 ج.م)</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[#8A8A8A] mb-1 font-semibold text-[11px] sm:text-xs">العنوان التفصيلي *</label>
-                    <textarea required id="custAddress" rows="2" placeholder="اسم الشارع، رقم المبنى، الشقة..." class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none text-xs"></textarea>
+                    <label class="block text-[#8A8A8A] mb-1 font-semibold">العنوان التفصيلي *</label>
+                    <textarea required id="custAddress" rows="2" placeholder="اسم الشارع، رقم المبنى، الشقة..." class="w-full bg-[#121212] text-white p-3 rounded-xl border border-[#282828] focus:border-[#C9A15A] outline-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-[#8A8A8A] mb-2 font-semibold text-[11px] sm:text-xs">طريقة الدفع</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <label class="bg-[#121212] p-3 rounded-xl border border-[#282828] flex items-center gap-2 cursor-pointer hover:border-[#C9A15A] text-[11px] sm:text-xs">
+                    <label class="block text-[#8A8A8A] mb-2 font-semibold">طريقة الدفع المتاحة</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="bg-[#121212] p-3 rounded-xl border border-[#282828] flex items-center gap-2 cursor-pointer hover:border-[#C9A15A]">
                             <input type="radio" name="paymentMethod" value="cod" checked class="accent-[#C9A15A]">
-                            <span>الدفع عند الاستلام</span>
+                            <span>الدفع نقداً عند الاستلام</span>
                         </label>
-                        <label class="bg-[#121212] p-3 rounded-xl border border-[#282828] flex items-center gap-2 cursor-pointer hover:border-[#C9A15A] text-[11px] sm:text-xs">
+                        <label class="bg-[#121212] p-3 rounded-xl border border-[#282828] flex items-center gap-2 cursor-pointer hover:border-[#C9A15A]">
                             <input type="radio" name="paymentMethod" value="instapay" class="accent-[#C9A15A]">
-                            <span>InstaPay / المحافظ</span>
+                            <span>تحويل InstaPay / المحافظ</span>
                         </label>
                     </div>
                 </div>
 
-                <div class="pt-4 border-t border-[#282828] flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
-                    <div class="text-center sm:text-right">
-                        <span class="text-[10px] sm:text-[11px] text-[#8A8A8A] block">المبلغ المطلوب</span>
-                        <span id="checkoutTotal" class="font-extrabold text-lg sm:text-xl gold-gradient-text">0 ج.م</span>
+                <div class="pt-4 border-t border-[#282828] flex justify-between items-center">
+                    <div>
+                        <span class="text-[11px] text-[#8A8A8A] block">المبلغ المطلوب سداده</span>
+                        <span id="checkoutTotal" class="font-extrabold text-xl gold-gradient-text">0 ج.م</span>
                     </div>
-                    <button type="submit" class="gold-button-gradient text-[#050505] font-black px-6 sm:px-8 py-3.5 rounded-full text-xs shadow-gold-lg flex items-center justify-center gap-2">
+                    <button type="submit" class="gold-button-gradient text-[#050505] font-black px-8 py-3.5 rounded-full text-xs shadow-gold-lg flex items-center gap-2">
                         <i class="fa-brands fa-whatsapp text-base"></i>
-                        <span>تأكيد وإرسال على واتساب</span>
+                        <span>تأكيد وإرسال الطلب على واتساب</span>
                     </button>
                 </div>
             </form>
@@ -893,26 +814,26 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-[#0B0B0B] border-t border-[#282828] mt-16 sm:mt-20 pt-12 sm:pt-16 pb-8">
+    <footer class="bg-[#0B0B0B] border-t border-[#282828] mt-20 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
                 
-                <div class="space-y-4 sm:col-span-2 md:col-span-1">
+                <div class="space-y-4 md:col-span-1">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#1A1A1A] to-[#050505] border border-[#C9A15A]/40 flex items-center justify-center">
                             <span class="font-serif font-black text-[#C9A15A] text-base">M</span>
                         </div>
                         <span class="font-serif text-2xl font-bold gold-gradient-text">MUGORA</span>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-[#8A8A8A] leading-relaxed">
+                    <p class="text-xs text-[#8A8A8A] leading-relaxed">
                         MUGORA - MAGIC IN HEAT<br>
-                        علامة تجارية فاخرة متخصصة في ابتكار الأكواب الحرارية والتقنيات الذكية.
+                        علامة تجارية فاخرة متخصصة في ابتكار الأكواب الحرارية والتقنيات الذكية لحفظ المشروبات الساخنة والباردة.
                     </p>
                 </div>
 
                 <div>
                     <h4 class="font-serif text-sm font-bold text-white mb-4 border-b border-[#282828] pb-2">روابط سريعة</h4>
-                    <ul class="space-y-2.5 text-[11px] sm:text-xs text-[#8A8A8A]">
+                    <ul class="space-y-2.5 text-xs text-[#8A8A8A]">
                         <li><button onclick="switchTab('home')" class="hover:text-[#C9A15A]">الرئيسية</button></li>
                         <li><button onclick="switchTab('shop')" class="hover:text-[#C9A15A]">كل المنتجات</button></li>
                         <li><button onclick="switchTab('wishlist')" class="hover:text-[#C9A15A]">قائمة المفضلة</button></li>
@@ -921,27 +842,27 @@
 
                 <div>
                     <h4 class="font-serif text-sm font-bold text-white mb-4 border-b border-[#282828] pb-2">فئات المجموعات</h4>
-                    <ul class="space-y-2.5 text-[11px] sm:text-xs text-[#8A8A8A]">
-                        <li><button onclick="filterByCategory('أكواب 450 ج.م')" class="hover:text-[#C9A15A]">الاقتصادي (450 ج.م)</button></li>
-                        <li><button onclick="filterByCategory('أكواب حرارية')" class="hover:text-[#C9A15A]">الكلاسيكي (600 ج.م)</button></li>
-                        <li><button onclick="filterByCategory('أكواب ذكية')" class="hover:text-[#C9A15A]">الذهبي (650 ج.م)</button></li>
+                    <ul class="space-y-2.5 text-xs text-[#8A8A8A]">
+                        <li><button onclick="filterByCategory('أكواب 450 ج.م')" class="hover:text-[#C9A15A]">الإصدار الاقتصادي (450 ج.م)</button></li>
+                        <li><button onclick="filterByCategory('أكواب حرارية')" class="hover:text-[#C9A15A]">الإصدار الكلاسيكي الحراري (600 ج.م)</button></li>
+                        <li><button onclick="filterByCategory('أكواب ذكية')" class="hover:text-[#C9A15A]">الإصدار الذهبي الذكي (650 ج.م)</button></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="font-serif text-sm font-bold text-white mb-4 border-b border-[#282828] pb-2">خدمة العملاء</h4>
-                    <ul class="space-y-2.5 text-[11px] sm:text-xs text-[#8A8A8A]">
-                        <li class="truncate"><i class="fa-solid fa-envelope ml-2 text-[#C9A15A]"></i> support@mugora.com</li>
-                        <li dir="ltr" class="truncate text-right"><i class="fa-solid fa-phone ml-2 text-[#C9A15A]"></i> +20 10 92786721</li>
+                    <ul class="space-y-2.5 text-xs text-[#8A8A8A]">
+                        <li><i class="fa-solid fa-envelope ml-2 text-[#C9A15A]"></i> support@mugora.com</li>
+                        <li><i class="fa-solid fa-phone ml-2 text-[#C9A15A]"></i> +20 10 92786721 MUGORA</li>
                         <li><i class="fa-solid fa-location-dot ml-2 text-[#C9A15A]"></i> القاهرة، مصر</li>
                     </ul>
                 </div>
 
             </div>
 
-            <div class="border-t border-[#282828] pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] sm:text-xs text-[#8A8A8A] gap-4">
-                <p class="text-center sm:text-right">© 2026 MUGORA - MAGIC IN HEAT. جميع الحقوق محفوظة.</p>
-                <div class="flex items-center gap-4 sm:gap-5 text-lg sm:text-base">
+            <div class="border-t border-[#282828] pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#8A8A8A] gap-4">
+                <p>© 2026 MUGORA - MAGIC IN HEAT. جميع الحقوق محفوظة.</p>
+                <div class="flex items-center gap-5 text-base">
                     <a href="https://www.instagram.com/mugo_ra?stkn=cmpmcmwzYjc1ZG5k" 
                        target="_blank" rel="noopener noreferrer"
                        class="hover:text-[#C9A15A] transition-colors" 
@@ -968,42 +889,374 @@
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/201092786721?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20MUGORA%20%F0%9F%91%8B"
        target="_blank"
-       class="fixed bottom-5 left-4 sm:bottom-6 sm:left-6 z-[90] w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#1EBE5A] text-white flex items-center justify-center text-xl sm:text-2xl shadow-2xl transition-all hover:scale-110"
-       style="bottom: calc(1.25rem + env(safe-area-inset-bottom));"
+       class="fixed bottom-6 left-6 z-[90] w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#1EBE5A] text-white flex items-center justify-center text-2xl shadow-2xl transition-all hover:scale-110"
        title="تواصل معنا على واتساب">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
     <script>
-        /* ====== رقم واتساب MUGORA الرسمي ====== */
+        /* ====== رقم واتساب MUGORA الرسمي (بالصيغة الدولية بدون + وبدون مسافات) ====== */
         const WHATSAPP_NUMBER = '201092786721';
 
         /**
-         * MUGORA Products Dataset
+         * MUGORA Structured Products Dataset
+         * 21 منتج: 13 منتج (600 و 650 ج.م) + 8 منتجات جديدة (450 ج.م)
          */
-        const PRODUCTS = [
-            { id: 1, name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 01", category: "أكواب حرارية", price: 600, originalPrice: 750, rating: 4.9, reviews: 142, img: "https://i.postimg.cc/fRqn3W02/Whats-App-Image-2026-09-09-at-6-49-16-PM.jpg", desc: "كوب حراري فاخر بتكنولوجيا العزل المزدوج لحفظ السخونة والبرودة طوال اليوم، متين وسهل الحمل أثناء التنقل.", isNew: true, usage: "office" },
-            { id: 2, name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 02", category: "أكواب حرارية", price: 600, originalPrice: 750, rating: 4.8, reviews: 98, img: "https://i.postimg.cc/NjCqyGHY/Whats-App-Image-2026-09-09-at-6-49-17-PM.jpg", desc: "تصميم عصري وحجم مثالي للمشروبات الساخنة والباردة مع إغلاق آمن ومقاوم للتسريب تمامًا.", isNew: true, usage: "car" },
-            { id: 3, name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 03", category: "أكواب حرارية", price: 600, originalPrice: 720, rating: 4.9, reviews: 115, img: "https://i.postimg.cc/YCDK42WK/Whats-App-Image-2026-09-09-at-6-49-17-PM-(1).jpg", desc: "حافظة حرارية فائقة الجودة بخامات فاخرة تحافظ على المذاق الطازج لقهوتك المفضلة.", isNew: false, usage: "office" },
-            { id: 4, name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 04", category: "أكواب حرارية", price: 600, originalPrice: null, rating: 5.0, reviews: 86, img: "https://i.postimg.cc/K8pSKcMh/Whats-App-Image-2026-09-09-at-6-49-17-PM-(2).jpg", desc: "تصميم أنيق وملمس ناعم مقاوم للخدش لمنحك أفضل تجربة استخدام يومية في العمل والمكتب.", isNew: false, usage: "office" },
-            { id: 5, name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 05", category: "أكواب حرارية", price: 600, originalPrice: 700, rating: 4.7, reviews: 64, img: "https://i.postimg.cc/T3NMy2DY/Whats-App-Image-2026-09-09-at-6-49-18-PM.jpg", desc: "هيكل متين من الاستانلس ستيل الصحي 316 المقاوم للصدأ لحفظ المشروبات لساعات طويلة.", isNew: true, usage: "car" },
-            { id: 6, name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 06", category: "أكواب حرارية", price: 600, originalPrice: null, rating: 4.9, reviews: 130, img: "https://i.postimg.cc/nhSbsVDx/Whats-App-Image-2026-09-09-at-6-49-18-PM-(1).jpg", desc: "شكل انسيابي ممتاز يناسب قاعدة الأكواب بالسيارة مع غطاء محكم وسهل الفتح بضغطة واحدة.", isNew: false, usage: "car" },
-            { id: 7, name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 01", category: "أكواب ذكية", price: 650, originalPrice: 800, rating: 5.0, reviews: 175, img: "https://i.postimg.cc/J0Md6Skc/Whats-App-Image-2026-09-09-at-6-50-26-PM.jpg", desc: "إصدار فاخر مزود بلمسات MUGORA الذهبية وتقنية حفظ الحرارة المتطورة أينما كنت.", isNew: true, usage: "office" },
-            { id: 8, name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 02", category: "أكواب ذكية", price: 650, originalPrice: 820, rating: 4.9, reviews: 154, img: "https://i.postimg.cc/Rh4bs2HH/Whats-App-Image-2026-09-09-at-6-50-26-PM-(1).jpg", desc: "تصميم احترافي راقٍ يوفر أعلى معايير حفظ السخونة والبرودة مع مظهر ذهبي ساحر.", isNew: true, usage: "car" },
-            { id: 9, name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 03", category: "أكواب ذكية", price: 650, originalPrice: null, rating: 4.8, reviews: 92, img: "https://i.postimg.cc/Y0MynTW6/Whats-App-Image-2026-09-09-at-6-50-26-PM-(2).jpg", desc: "عزل حراري متعدد الطبقات يمنع توصيل السخونة للخارج مع الحفاظ على القهوة ساخنة طازجة.", isNew: false, usage: "office" },
-            { id: 10, name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 04", category: "أكواب ذكية", price: 650, originalPrice: 780, rating: 4.9, reviews: 110, img: "https://i.postimg.cc/MHqrPgQ0/Whats-App-Image-2026-09-09-at-6-50-26-PM-(3).jpg", desc: "الخيار المثالي لمحبي الفخامة والأناقة في العمل والتنقل اليومي.", isNew: true, usage: "car" },
-            { id: 11, name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 05", category: "أكواب ذكية", price: 650, originalPrice: null, rating: 5.0, reviews: 204, img: "https://i.postimg.cc/cC059PnD/Whats-App-Image-2026-09-09-at-6-50-27-PM.jpg", desc: "كوب حراري فاخر يدعم الشرب السهل بدون تسريب، بخامات صحية آمنة 100%.", isNew: false, usage: "office" },
-            { id: 12, name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 06", category: "أكواب ذكية", price: 650, originalPrice: 850, rating: 4.9, reviews: 138, img: "https://i.postimg.cc/nrpwRND1/Whats-App-Image-2026-09-09-at-6-50-27-PM-(1).jpg", desc: "كوب إمبراطوري بتفاصيل دقيقة وأعلى كفاءة حرارية لتجربة شرب فاخرة.", isNew: true, usage: "car" },
-            { id: 13, name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 07", category: "أكواب ذكية", price: 650, originalPrice: null, rating: 4.8, reviews: 89, img: "https://i.postimg.cc/8cNnKx6K/Whats-App-Image-2026-09-09-at-6-50-27-PM-(2).jpg", desc: "الإصدار المتميز من MUGORA بحفظ استثنائي للحرارة وشكل يمنحك التميز المطلق.", isNew: false, usage: "car" },
-            { id: 14, name: "كوب MUGORA - الإصدار الاقتصادي 01", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.7, reviews: 73, img: "https://i.postimg.cc/VNKWhwGy/Whats-App-Image-2026-09-09-at-11-06-54-PM.jpg", desc: "كوب حراري فاخر بتصميم عصري وحجم مناسب للاستخدام اليومي، مع عزل حراري يحفظ مشروبك ساخناً لساعات طويلة.", isNew: true, usage: "office" },
-            { id: 15, name: "كوب MUGORA - الإصدار الاقتصادي 02", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.8, reviews: 61, img: "https://i.postimg.cc/5tsSrJPp/Whats-App-Image-2026-09-09-at-11-06-54-PM-(1).jpg", desc: "تصميم انسيابي أنيق يناسب حامل الأكواب في السيارة، بغطاء محكم يمنع التسريب تماماً أثناء التنقل.", isNew: true, usage: "car" },
-            { id: 16, name: "كوب MUGORA - الإصدار الاقتصادي 03", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.6, reviews: 55, img: "https://i.postimg.cc/KY0DWb9C/Whats-App-Image-2026-09-09-at-11-06-54-PM-(2).jpg", desc: "خامات صحية آمنة 100% خالية من BPA، مع ملمس ناعم مقاوم للخدش وسهل التنظيف.", isNew: true, usage: "office" },
-            { id: 17, name: "كوب MUGORA - الإصدار الاقتصادي 04", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.7, reviews: 68, img: "https://i.postimg.cc/CKcs20PT/Whats-App-Image-2026-09-09-at-11-06-55-PM.jpg", desc: "حجم مثالي للمشروبات الساخنة والباردة، مع قاعدة مانعة للانزلاق وهيكل متين يدوم طويلاً.", isNew: true, usage: "office" },
-            { id: 18, name: "كوب MUGORA - الإصدار الاقتصادي 05", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.9, reviews: 82, img: "https://i.postimg.cc/k5TvHCjZ/Whats-App-Image-2026-09-09-at-11-06-55-PM-(1).jpg", desc: "تصميم فاخر بلمسات MUGORA المميزة، يجمع بين الأناقة والعملية بسعر استثنائي.", isNew: true, usage: "car" },
-            { id: 19, name: "كوب MUGORA - الإصدار الاقتصادي 06", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.6, reviews: 47, img: "https://i.postimg.cc/xCq3DZ77/Whats-App-Image-2026-09-10-at-12-02-53-AM.jpg", desc: "عزل حراري مزدوج يحافظ على سخونة أو برودة مشروبك لساعات، مع غطاء سهل الفتح بضغطة واحدة.", isNew: true, usage: "office" },
-            { id: 20, name: "كوب MUGORA - الإصدار الاقتصادي 07", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.8, reviews: 59, img: "https://i.postimg.cc/G29xwfNW/Whats-App-Image-2026-09-10-at-12-03-01-AM.jpg", desc: "كوب عملي وأنيق مناسب للمكتب والدراسة، بحجم يوفر كمية مثالية لمشروبك المفضل.", isNew: true, usage: "office" },
-            { id: 21, name: "كوب MUGORA - الإصدار الاقتصادي 08", category: "أكواب 450 ج.م", price: 450, originalPrice: null, rating: 4.7, reviews: 51, img: "https://i.postimg.cc/Y9jzKPZw/Whats-App-Image-2026-09-10-at-12-03-03-AM.jpg", desc: "الإصدار الاقتصادي المميز من MUGORA بحفظ حراري موثوق وتصميم يناسب جميع الأذواق.", isNew: true, usage: "car" }
+        const LEGACY_PRODUCTS = [
+            {
+                id: 1,
+                name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 01",
+                category: "أكواب حرارية",
+                price: 600,
+                originalPrice: 750,
+                rating: 4.9,
+                reviews: 142,
+                img: "https://i.postimg.cc/fRqn3W02/Whats-App-Image-2026-09-09-at-6-49-16-PM.jpg",
+                desc: "كوب حراري فاخر بتكنولوجيا العزل المزدوج لحفظ السخونة والبرودة طوال اليوم، متين وسهل الحمل أثناء التنقل.",
+                isNew: true,
+                usage: "office"
+            },
+            {
+                id: 2,
+                name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 02",
+                category: "أكواب حرارية",
+                price: 600,
+                originalPrice: 750,
+                rating: 4.8,
+                reviews: 98,
+                img: "https://i.postimg.cc/NjCqyGHY/Whats-App-Image-2026-09-09-at-6-49-17-PM.jpg",
+                desc: "تصميم عصري وحجم مثالي للمشروبات الساخنة والباردة مع إغلاق آمن ومقاوم للتسريب تمامًا.",
+                isNew: true,
+                usage: "car"
+            },
+            {
+                id: 3,
+                name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 03",
+                category: "أكواب حرارية",
+                price: 600,
+                originalPrice: 720,
+                rating: 4.9,
+                reviews: 115,
+                img: "https://i.postimg.cc/YCDK42WK/Whats-App-Image-2026-09-09-at-6-49-17-PM-(1).jpg",
+                desc: "حافظة حرارية فائقة الجودة بخامات فاخرة تحافظ على المذاق الطازج لقهوتك المفضلة.",
+                isNew: false,
+                usage: "office"
+            },
+            {
+                id: 4,
+                name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 04",
+                category: "أكواب حرارية",
+                price: 600,
+                originalPrice: null,
+                rating: 5.0,
+                reviews: 86,
+                img: "https://i.postimg.cc/K8pSKcMh/Whats-App-Image-2026-09-09-at-6-49-17-PM-(2).jpg",
+                desc: "تصميم أنيق وملمس ناعم مقاوم للخدش لمنحك أفضل تجربة استخدام يومية في العمل والمكتب.",
+                isNew: false,
+                usage: "office"
+            },
+            {
+                id: 5,
+                name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 05",
+                category: "أكواب حرارية",
+                price: 600,
+                originalPrice: 700,
+                rating: 4.7,
+                reviews: 64,
+                img: "https://i.postimg.cc/T3NMy2DY/Whats-App-Image-2026-09-09-at-6-49-18-PM.jpg",
+                desc: "هيكل متين من الاستانلس ستيل الصحي 316 المقاوم للصدأ لحفظ المشروبات لساعات طويلة.",
+                isNew: true,
+                usage: "car"
+            },
+            {
+                id: 6,
+                name: "كوب MUGORA الحراري - الإصدار الكلاسيكي 06",
+                category: "أكواب حرارية",
+                price: 600,
+                originalPrice: null,
+                rating: 4.9,
+                reviews: 130,
+                img: "https://i.postimg.cc/nhSbsVDx/Whats-App-Image-2026-09-09-at-6-49-18-PM-(1).jpg",
+                desc: "شكل انسيابي ممتاز يناسب قاعدة الأكواب بالسيارة مع غطاء محكم وسهل الفتح بضغطة واحدة.",
+                isNew: false,
+                usage: "car"
+            },
+            {
+                id: 7,
+                name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 01",
+                category: "أكواب ذكية",
+                price: 650,
+                originalPrice: 800,
+                rating: 5.0,
+                reviews: 175,
+                img: "https://i.postimg.cc/J0Md6Skc/Whats-App-Image-2026-09-09-at-6-50-26-PM.jpg",
+                desc: "إصدار فاخر مزود بلمسات MUGORA الذهبية وتقنية حفظ الحرارة المتطورة أينما كنت.",
+                isNew: true,
+                usage: "office"
+            },
+            {
+                id: 8,
+                name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 02",
+                category: "أكواب ذكية",
+                price: 650,
+                originalPrice: 820,
+                rating: 4.9,
+                reviews: 154,
+                img: "https://i.postimg.cc/Rh4bs2HH/Whats-App-Image-2026-09-09-at-6-50-26-PM-(1).jpg",
+                desc: "تصميم احترافي راقٍ يوفر أعلى معايير حفظ السخونة والبرودة مع مظهر ذهبي ساحر.",
+                isNew: true,
+                usage: "car"
+            },
+            {
+                id: 9,
+                name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 03",
+                category: "أكواب ذكية",
+                price: 650,
+                originalPrice: null,
+                rating: 4.8,
+                reviews: 92,
+                img: "https://i.postimg.cc/Y0MynTW6/Whats-App-Image-2026-09-09-at-6-50-26-PM-(2).jpg",
+                desc: "عزل حراري متعدد الطبقات يمنع توصيل السخونة للخارج مع الحفاظ على القهوة ساخنة طازجة.",
+                isNew: false,
+                usage: "office"
+            },
+            {
+                id: 10,
+                name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 04",
+                category: "أكواب ذكية",
+                price: 650,
+                originalPrice: 780,
+                rating: 4.9,
+                reviews: 110,
+                img: "https://i.postimg.cc/MHqrPgQ0/Whats-App-Image-2026-09-09-at-6-50-26-PM-(3).jpg",
+                desc: "الخيار المثالي لمحبي الفخامة والأناقة في العمل والتنقل اليومي.",
+                isNew: true,
+                usage: "car"
+            },
+            {
+                id: 11,
+                name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 05",
+                category: "أكواب ذكية",
+                price: 650,
+                originalPrice: null,
+                rating: 5.0,
+                reviews: 204,
+                img: "https://i.postimg.cc/cC059PnD/Whats-App-Image-2026-09-09-at-6-50-27-PM.jpg",
+                desc: "كوب حراري فاخر يدعم الشرب السهل بدون تسريب، بخامات صحية آمنة 100%.",
+                isNew: false,
+                usage: "office"
+            },
+            {
+                id: 12,
+                name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 06",
+                category: "أكواب ذكية",
+                price: 650,
+                originalPrice: 850,
+                rating: 4.9,
+                reviews: 138,
+                img: "https://i.postimg.cc/nrpwRND1/Whats-App-Image-2026-09-09-at-6-50-27-PM-(1).jpg",
+                desc: "كوب إمبراطوري بتفاصيل دقيقة وأعلى كفاءة حرارية لتجربة شرب فاخرة.",
+                isNew: true,
+                usage: "car"
+            },
+            {
+                id: 13,
+                name: "كوب MUGORA الذكي - الإصدار الذهبي الفاخر 07",
+                category: "أكواب ذكية",
+                price: 650,
+                originalPrice: null,
+                rating: 4.8,
+                reviews: 89,
+                img: "https://i.postimg.cc/8cNnKx6K/Whats-App-Image-2026-09-09-at-6-50-27-PM-(2).jpg",
+                desc: "الإصدار المتميز من MUGORA بحفظ استثنائي للحرارة وشكل يمنحك التميز المطلق.",
+                isNew: false,
+                usage: "car"
+            },
+            /* ====== منتجات 450 ج.م - الإصدار الاقتصادي ====== */
+            {
+                id: 14,
+                name: "كوب MUGORA - الإصدار الاقتصادي 01",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.7,
+                reviews: 73,
+                img: "https://i.postimg.cc/VNKWhwGy/Whats-App-Image-2026-09-09-at-11-06-54-PM.jpg",
+                desc: "كوب حراري فاخر بتصميم عصري وحجم مناسب للاستخدام اليومي، مع عزل حراري يحفظ مشروبك ساخناً لساعات طويلة.",
+                isNew: true,
+                usage: "office"
+            },
+            {
+                id: 15,
+                name: "كوب MUGORA - الإصدار الاقتصادي 02",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.8,
+                reviews: 61,
+                img: "https://i.postimg.cc/5tsSrJPp/Whats-App-Image-2026-09-09-at-11-06-54-PM-(1).jpg",
+                desc: "تصميم انسيابي أنيق يناسب حامل الأكواب في السيارة، بغطاء محكم يمنع التسريب تماماً أثناء التنقل.",
+                isNew: true,
+                usage: "car"
+            },
+            {
+                id: 16,
+                name: "كوب MUGORA - الإصدار الاقتصادي 03",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.6,
+                reviews: 55,
+                img: "https://i.postimg.cc/KY0DWb9C/Whats-App-Image-2026-09-09-at-11-06-54-PM-(2).jpg",
+                desc: "خامات صحية آمنة 100% خالية من BPA، مع ملمس ناعم مقاوم للخدش وسهل التنظيف.",
+                isNew: true,
+                usage: "office"
+            },
+            {
+                id: 17,
+                name: "كوب MUGORA - الإصدار الاقتصادي 04",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.7,
+                reviews: 68,
+                img: "https://i.postimg.cc/CKcs20PT/Whats-App-Image-2026-09-09-at-11-06-55-PM.jpg",
+                desc: "حجم مثالي للمشروبات الساخنة والباردة، مع قاعدة مانعة للانزلاق وهيكل متين يدوم طويلاً.",
+                isNew: true,
+                usage: "office"
+            },
+            {
+                id: 18,
+                name: "كوب MUGORA - الإصدار الاقتصادي 05",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.9,
+                reviews: 82,
+                img: "https://i.postimg.cc/k5TvHCjZ/Whats-App-Image-2026-09-09-at-11-06-55-PM-(1).jpg",
+                desc: "تصميم فاخر بلمسات MUGORA المميزة، يجمع بين الأناقة والعملية بسعر استثنائي.",
+                isNew: true,
+                usage: "car"
+            },
+            {
+                id: 19,
+                name: "كوب MUGORA - الإصدار الاقتصادي 06",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.6,
+                reviews: 47,
+                img: "https://i.postimg.cc/xCq3DZ77/Whats-App-Image-2026-09-10-at-12-02-53-AM.jpg",
+                desc: "عزل حراري مزدوج يحافظ على سخونة أو برودة مشروبك لساعات، مع غطاء سهل الفتح بضغطة واحدة.",
+                isNew: true,
+                usage: "office"
+            },
+            {
+                id: 20,
+                name: "كوب MUGORA - الإصدار الاقتصادي 07",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.8,
+                reviews: 59,
+                img: "https://i.postimg.cc/G29xwfNW/Whats-App-Image-2026-09-10-at-12-03-01-AM.jpg",
+                desc: "كوب عملي وأنيق مناسب للمكتب والدراسة، بحجم يوفر كمية مثالية لمشروبك المفضل.",
+                isNew: true,
+                usage: "office"
+            },
+            {
+                id: 21,
+                name: "كوب MUGORA - الإصدار الاقتصادي 08",
+                category: "أكواب 450 ج.م",
+                price: 450,
+                originalPrice: null,
+                rating: 4.7,
+                reviews: 51,
+                img: "https://i.postimg.cc/Y9jzKPZw/Whats-App-Image-2026-09-10-at-12-03-03-AM.jpg",
+                desc: "الإصدار الاقتصادي المميز من MUGORA بحفظ حراري موثوق وتصميم يناسب جميع الأذواق.",
+                isNew: true,
+                usage: "car"
+            }
         ];
+
+        const PRODUCT_GROUPS = [
+            {
+                folder: '1',
+                price: 600,
+                images: [
+                    'WhatsApp Image 2026-09-09 at 6.49.16 PM.jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.49.17 PM (1).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.49.17 PM (2).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.49.17 PM.jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.49.18 PM (1).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.49.18 PM.jpeg'
+                ]
+            },
+            {
+                folder: '2',
+                price: 650,
+                images: [
+                    'WhatsApp Image 2026-09-09 at 6.50.26 PM (1).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.50.26 PM (2).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.50.26 PM (3).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.50.26 PM.jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.50.27 PM (1).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.50.27 PM (2).jpeg',
+                    'WhatsApp Image 2026-09-09 at 6.50.27 PM.jpeg'
+                ]
+            },
+            {
+                folder: '3',
+                price: 450,
+                images: [
+                    'WhatsApp Image 2026-09-09 at 11.06.54 PM (1).jpeg',
+                    'WhatsApp Image 2026-09-09 at 11.06.54 PM (2).jpeg',
+                    'WhatsApp Image 2026-09-09 at 11.06.54 PM.jpeg',
+                    'WhatsApp Image 2026-09-09 at 11.06.55 PM (1).jpeg',
+                    'WhatsApp Image 2026-09-09 at 11.06.55 PM.jpeg',
+                    'WhatsApp Image 2026-09-10 at 12.02.53 AM.jpeg',
+                    'WhatsApp Image 2026-09-10 at 12.03.01 AM.jpeg',
+                    'WhatsApp Image 2026-09-10 at 12.03.03 AM (1).jpeg',
+                    'WhatsApp Image 2026-09-10 at 12.03.03 AM.jpeg'
+                ]
+            },
+            {
+                folder: '4',
+                price: 600,
+                images: [
+                    '801149374_122137747797178011_5163662792888933026_n.jpg',
+                    '801284270_122137747665178011_842558281716109889_n.jpg',
+                    '801396627_122137747323178011_5750795459601837524_n.jpg',
+                    '801396627_122137747755178011_2145128986612936879_n.jpg',
+                    '801477196_122137747365178011_2397994727108456105_n.jpg',
+                    '801582295_122137747581178011_6003919891010474462_n.jpg',
+                    '801582310_122137747491178011_7246608997261348841_n.jpg',
+                    '801582322_122137747707178011_3738435678451991470_n.jpg',
+                    '801755645_122137747533178011_1724259996222318400_n.jpg',
+                    '801755647_122137747407178011_6102733292086590383_n.jpg',
+                    '801786045_122137747449178011_594271424086923621_n.jpg',
+                    '801786050_122137747839178011_4122549622560449912_n.jpg',
+                    '801786053_122137747143178011_1549110546841612443_n.jpg',
+                    '801786059_122137747623178011_27868598530421485_n.jpg',
+                    '801869955_122137747881178011_3606273324259065450_n.jpg',
+                    '801883121_122137747191178011_2493945149729421374_n.jpg'
+                ]
+            }
+        ];
+
+        const PRODUCTS = PRODUCT_GROUPS.flatMap(group => group.images.map((image, index) => ({
+            id: Number(group.folder) * 100 + index + 1,
+            name: `منتج MUGORA - المجموعة ${group.folder} / ${String(index + 1).padStart(2, '0')}`,
+            category: `المجموعة ${group.folder} - ${group.price} ج.م`,
+            price: group.price,
+            originalPrice: null,
+            rating: 5,
+            reviews: 0,
+            img: encodeURI(`${group.folder}/${image}`),
+            desc: 'منتج MUGORA من الصور المضافة حديثًا، بتصميم أنيق مناسب للاستخدام اليومي.',
+            isNew: true,
+            usage: 'office'
+        })));
 
         // Global State
         let state = {
@@ -1017,101 +1270,11 @@
             modalQty: 1,
             appliedCoupon: null,
             finderUsage: 'car',
-            finderBudget: '600',
-            currentTab: 'home'
+            finderBudget: '600'
         };
-
-        /* ============================================================
-           ===== HISTORY API - للتحكم في زر الرجوع في الموبايل =====
-           ============================================================ */
-
-        // مخزن حالة عام للـ history
-        let historyState = {
-            tab: 'home',
-            modal: null
-        };
-
-        // دالة تحديث الـ history بدون ما تفتح صفحة جديدة
-        function pushHistory(stateObj) {
-            history.pushState(stateObj, '', window.location.pathname + window.location.search);
-        }
-
-        // عند الرجوع (زر رجوع الموبايل أو المتصفح)
-        window.addEventListener('popstate', (event) => {
-            const st = event.state || {};
-
-            // لو فيه مودال مفتوح، اقفله أولاً
-            const openModalId = getOpenModalId();
-            if (openModalId) {
-                closeAllModalsSilently();
-                // أعد دفع حالة التاب الحالي بعد إغلاق المودال
-                pushHistory({ tab: state.currentTab, modal: null });
-                return;
-            }
-
-            // وإلا، تنقل للتاب اللي في الـ state
-            const targetTab = st.tab || 'home';
-            if (targetTab !== state.currentTab) {
-                switchTabSilent(targetTab);
-                pushHistory({ tab: targetTab, modal: null });
-            } else {
-                // لو هو نفس التاب، اطلع للـ home
-                if (state.currentTab !== 'home') {
-                    switchTabSilent('home');
-                    pushHistory({ tab: 'home', modal: null });
-                }
-                // لو إحنا في الرئيسية وما فيش مودال، اترك المتصفح يخرج عادي
-            }
-        });
-
-        function getOpenModalId() {
-            const modals = ['productModal', 'fullScreenModal', 'mugFinderModal', 'compareModal', 'checkoutModal'];
-            for (const id of modals) {
-                const el = document.getElementById(id);
-                if (el && !el.classList.contains('hidden')) return id;
-            }
-            return null;
-        }
-
-        function closeAllModalsSilently() {
-            ['productModal', 'fullScreenModal', 'mugFinderModal', 'compareModal', 'checkoutModal'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.add('hidden');
-            });
-            document.body.classList.remove('modal-open');
-            state.modalProduct = null;
-        }
-
-        function openModal(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.classList.remove('hidden');
-            el.classList.add('flex');
-            document.body.classList.add('modal-open');
-            pushHistory({ tab: state.currentTab, modal: id });
-        }
-
-        function closeModal(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.classList.add('hidden');
-            el.classList.remove('flex');
-            // لو مفيش مودال تاني مفتوح شيل الكلاس
-            setTimeout(() => {
-                if (!getOpenModalId()) {
-                    document.body.classList.remove('modal-open');
-                }
-            }, 50);
-        }
-
-        /* ============================================================ */
 
         // Initialize App
         window.addEventListener('DOMContentLoaded', () => {
-            // استبدل الحالة الأولية عشان نقدر نتحكم في الرجوع
-            history.replaceState({ tab: 'home', modal: null }, '', window.location.pathname + window.location.search);
-            pushHistory({ tab: 'home', modal: null });
-
             renderCategories();
             renderProducts();
             updateBadges();
@@ -1128,8 +1291,8 @@
                     : 'bg-[#121212] text-[#F5EFE4] hover:bg-[#1A1A1A] border border-[#282828]';
                 
                 return `
-                    <button onclick="filterByCategory('${cat}')" class="px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs whitespace-nowrap transition-all flex-shrink-0 ${activeClasses}">
-                        ${cat === 'All' ? 'جميع المنتجات (21)' : cat}
+                    <button onclick="filterByCategory('${cat}')" class="px-6 py-2.5 rounded-full text-xs whitespace-nowrap transition-all ${activeClasses}">
+                        ${cat === 'All' ? `جميع المنتجات (${PRODUCTS.length})` : cat}
                     </button>
                 `;
             }).join('');
@@ -1149,11 +1312,6 @@
             } else {
                 clearBtn?.classList.add('hidden');
             }
-            // مزامنة الحقلين
-            const desktop = document.getElementById('searchInput');
-            const mobile = document.getElementById('mobileSearchInput');
-            if (desktop && desktop.value !== query) desktop.value = query;
-            if (mobile && mobile.value !== query) mobile.value = query;
             renderProducts();
         }
 
@@ -1167,9 +1325,7 @@
             state.searchQuery = '';
             state.sortBy = 'default';
             const input = document.getElementById('searchInput');
-            const mInput = document.getElementById('mobileSearchInput');
             if(input) input.value = '';
-            if(mInput) mInput.value = '';
             document.getElementById('sortSelect').value = 'default';
             renderCategories();
             renderProducts();
@@ -1199,7 +1355,7 @@
             const countEl = document.getElementById('productCount');
             const emptyEl = document.getElementById('emptyState');
 
-            if(countEl) countEl.textContent = `عرض ${filtered.length} من 21 منتج`;
+            if(countEl) countEl.textContent = `عرض ${filtered.length} من إجمالي ${PRODUCTS.length} منتج`;
 
             if (filtered.length === 0) {
                 if(grid) grid.innerHTML = '';
@@ -1219,54 +1375,54 @@
             const isWish = state.wishlist.includes(p.id);
             const isComp = state.compareList.includes(p.id);
             const discountBadge = p.originalPrice 
-                ? `<span class="bg-red-900/80 text-white text-[8px] sm:text-[10px] font-black px-1.5 sm:px-2.5 py-0.5 rounded-full border border-red-500/30">-${Math.round((1 - p.price / p.originalPrice) * 100)}%</span>` 
+                ? `<span class="bg-red-900/80 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full border border-red-500/30">خصم ${Math.round((1 - p.price / p.originalPrice) * 100)}%</span>` 
                 : '';
             const newBadge = p.isNew 
-                ? `<span class="bg-[#C9A15A] text-[#050505] text-[8px] sm:text-[10px] font-black px-1.5 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">NEW</span>` 
+                ? `<span class="bg-[#C9A15A] text-[#050505] text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">NEW</span>` 
                 : '';
 
             return `
-                <div class="product-card bg-[#0B0B0B] border border-[#282828] rounded-xl sm:rounded-2xl overflow-hidden flex flex-col justify-between group relative">
+                <div class="product-card bg-[#0B0B0B] border border-[#282828] rounded-2xl overflow-hidden flex flex-col justify-between group relative">
                     
-                    <div class="relative bg-[#121212] p-3 sm:p-4 product-img-box flex items-center justify-center cursor-pointer border-b border-[#282828]" onclick="openProductModal(${p.id})">
-                        <img src="${p.img}" alt="${p.name}" loading="lazy" class="max-h-full max-w-full object-contain img-glow">
+                    <div class="relative bg-[#121212] p-4 h-52 sm:h-64 flex items-center justify-center cursor-pointer border-b border-[#282828]" onclick="openProductModal(${p.id})">
+                        <img src="${p.img}" alt="${p.name}" class="max-h-full max-w-full object-contain img-glow">
                         
-                        <div class="absolute top-2 sm:top-3 right-2 sm:right-3 flex flex-col gap-1 items-end z-10">
+                        <div class="absolute top-3 right-3 flex flex-col gap-1 items-end z-10">
                             ${newBadge}
                             ${discountBadge}
                         </div>
 
-                        <div class="absolute top-2 sm:top-3 left-2 sm:left-3 flex flex-col gap-1 sm:gap-1.5 z-10">
-                            <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0B0B0B]/80 hover:bg-[#0B0B0B] text-white flex items-center justify-center transition-colors border border-[#282828]" title="المفضلة">
-                                <i class="${isWish ? 'fa-solid text-red-500' : 'fa-regular text-white'} fa-heart text-[10px] sm:text-xs"></i>
+                        <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+                            <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" class="w-8 h-8 rounded-full bg-[#0B0B0B]/80 hover:bg-[#0B0B0B] text-white flex items-center justify-center transition-colors border border-[#282828]" title="إضافة للمفضلة">
+                                <i class="${isWish ? 'fa-solid text-red-500' : 'fa-regular text-white'} fa-heart text-xs"></i>
                             </button>
-                            <button onclick="event.stopPropagation(); toggleCompare(${p.id})" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0B0B0B]/80 hover:bg-[#0B0B0B] ${isComp ? 'text-[#C9A15A]' : 'text-white'} flex items-center justify-center transition-colors border border-[#282828]" title="مقارنة">
-                                <i class="fa-solid fa-code-compare text-[10px] sm:text-xs"></i>
+                            <button onclick="event.stopPropagation(); toggleCompare(${p.id})" class="w-8 h-8 rounded-full bg-[#0B0B0B]/80 hover:bg-[#0B0B0B] ${isComp ? 'text-[#C9A15A]' : 'text-white'} flex items-center justify-center transition-colors border border-[#282828]" title="مقارنة الموديل">
+                                <i class="fa-solid fa-code-compare text-xs"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="p-2.5 sm:p-4 flex flex-col flex-grow justify-between space-y-2 sm:space-y-3">
+                    <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
                         <div>
-                            <span class="text-[9px] sm:text-[10px] font-bold text-[#C9A15A] uppercase tracking-wider">${p.category}</span>
-                            <h3 onclick="openProductModal(${p.id})" class="text-[11px] sm:text-sm font-bold text-white line-clamp-2 mt-1 hover:text-[#C9A15A] cursor-pointer transition-colors leading-snug">${p.name}</h3>
+                            <span class="text-[10px] font-bold text-[#C9A15A] uppercase tracking-wider">${p.category}</span>
+                            <h3 onclick="openProductModal(${p.id})" class="text-xs sm:text-sm font-bold text-white line-clamp-2 mt-1 hover:text-[#C9A15A] cursor-pointer transition-colors leading-snug">${p.name}</h3>
                         </div>
 
-                        <div class="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#C9A15A]">
+                        <div class="flex items-center gap-1.5 text-[11px] text-[#C9A15A]">
                             <i class="fa-solid fa-star"></i>
                             <span class="font-bold text-white">${p.rating}</span>
-                            <span class="text-[#8A8A8A] text-[9px] sm:text-[10px]">(${p.reviews})</span>
+                            <span class="text-[#8A8A8A] text-[10px]">(${p.reviews} تقييم)</span>
                         </div>
 
-                        <div class="flex items-center justify-between gap-1.5 pt-2 sm:pt-3 border-t border-[#282828]">
-                            <div class="flex flex-col min-w-0">
-                                <span class="font-extrabold text-[12px] sm:text-base gold-gradient-text whitespace-nowrap">${p.price} ج.م</span>
-                                ${p.originalPrice ? `<span class="text-[9px] sm:text-[10px] text-[#8A8A8A] line-through">${p.originalPrice}</span>` : ''}
+                        <div class="flex items-center justify-between pt-3 border-t border-[#282828]">
+                            <div class="flex flex-col">
+                                <span class="font-extrabold text-sm sm:text-base gold-gradient-text">${p.price} ج.م</span>
+                                ${p.originalPrice ? `<span class="text-[10px] text-[#8A8A8A] line-through">${p.originalPrice} ج.م</span>` : ''}
                             </div>
                             
-                            <button onclick="addToCart(${p.id})" class="gold-button-gradient text-[#050505] font-black px-2 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs flex items-center gap-1 shadow-md flex-shrink-0">
-                                <i class="fa-solid fa-plus text-[9px] sm:text-xs"></i>
-                                <span class="hidden xs:inline sm:inline">إضافة</span>
+                            <button onclick="addToCart(${p.id})" class="gold-button-gradient text-[#050505] font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>إضافة</span>
                             </button>
                         </div>
                     </div>
@@ -1303,14 +1459,14 @@
             document.getElementById('modalStars').innerHTML = `
                 <i class="fa-solid fa-star text-xs"></i>
                 <span class="font-bold text-white ml-1">${product.rating}</span>
-                <span class="text-[#8A8A8A]">(${product.reviews})</span>
+                <span class="text-[#8A8A8A]">(${product.reviews} تقييم معتمد)</span>
             `;
 
-            openModal('productModal');
+            document.getElementById('productModal').classList.remove('hidden');
         }
 
         function closeProductModal() {
-            closeModal('productModal');
+            document.getElementById('productModal').classList.add('hidden');
             state.modalProduct = null;
         }
 
@@ -1334,36 +1490,31 @@
         function openFullScreenImage() {
             if (!state.modalProduct) return;
             document.getElementById('fullScreenImg').src = state.modalProduct.img;
-            openModal('fullScreenModal');
+            document.getElementById('fullScreenModal').classList.remove('hidden');
         }
 
         function closeFullScreenImage() {
-            closeModal('fullScreenModal');
+            document.getElementById('fullScreenModal').classList.add('hidden');
         }
 
         function openMugFinderModal() {
-            openModal('mugFinderModal');
+            document.getElementById('mugFinderModal').classList.remove('hidden');
         }
         function closeMugFinderModal() {
-            closeModal('mugFinderModal');
+            document.getElementById('mugFinderModal').classList.add('hidden');
         }
         function selectMugUsage(usage) {
             state.finderUsage = usage;
-            document.getElementById('useCar').classList.remove('border-[#C9A15A]');
-            document.getElementById('useOffice').classList.remove('border-[#C9A15A]');
-            document.getElementById(usage === 'car' ? 'useCar' : 'useOffice').classList.add('border-[#C9A15A]');
-            showToast('تم تحديد مجال الاستخدام');
+            showToast('تم تحديد مجالي الاستخدام');
         }
         function selectMugBudget(budget) {
             state.finderBudget = budget;
-            ['450','600','650'].forEach(b => document.getElementById('bud'+b).classList.remove('border-[#C9A15A]'));
-            document.getElementById('bud'+budget).classList.add('border-[#C9A15A]');
             showToast('تم تحديد الفئة السعرية');
         }
         function findBestMug() {
             closeMugFinderModal();
             const recommended = PRODUCTS.find(p => p.price == state.finderBudget && p.usage == state.finderUsage) || PRODUCTS[0];
-            setTimeout(() => openProductModal(recommended.id), 250);
+            openProductModal(recommended.id);
             showToast('تم ترشيح الكوب الأكثر ملاءمة لك!');
         }
 
@@ -1377,7 +1528,7 @@
                     state.compareList.shift();
                 }
                 state.compareList.push(id);
-                showToast('تم إضافة المنتج للمقارنة');
+                showToast('تم إضافة المنتج للمقارنة (حد أقصى منتجين)');
             }
             localStorage.setItem('mugora_compare', JSON.stringify(state.compareList));
             updateBadges();
@@ -1385,10 +1536,11 @@
         }
 
         function openCompareModal() {
+            const modal = document.getElementById('compareModal');
             const container = document.getElementById('compareContent');
             
             if (state.compareList.length === 0) {
-                showToast('يرجى اختيار منتجين للمقارنة أولاً');
+                showToast('يرجى اختيار منتجين للمقارنة بينهما أولاً');
                 return;
             }
 
@@ -1396,13 +1548,13 @@
 
             container.innerHTML = items.map(p => `
                 <div class="bg-[#121212] p-4 rounded-2xl border border-[#282828] space-y-3 text-center">
-                    <img src="${p.img}" class="h-32 sm:h-40 mx-auto object-contain">
-                    <h4 class="font-bold text-white text-xs sm:text-sm">${p.name}</h4>
+                    <img src="${p.img}" class="h-40 mx-auto object-contain">
+                    <h4 class="font-bold text-white">${p.name}</h4>
                     <span class="gold-gradient-text font-black text-base block">${p.price} ج.م</span>
-                    <ul class="text-[10px] sm:text-[11px] text-[#8A8A8A] space-y-2 text-right border-t border-[#282828] pt-3">
+                    <ul class="text-[11px] text-[#8A8A8A] space-y-2 text-right border-t border-[#282828] pt-3">
                         <li><strong>الفئة:</strong> ${p.category}</li>
                         <li><strong>التقييم:</strong> ${p.rating} ★</li>
-                        <li><strong>العزل:</strong> حتى 24 ساعة</li>
+                        <li><strong>العزل الحراري:</strong> حتى 24 ساعة</li>
                     </ul>
                     <button onclick="addToCart(${p.id}); closeCompareModal();" class="w-full gold-button-gradient text-[#050505] font-bold py-2 rounded-xl text-xs">
                         إضافة للسلة
@@ -1410,11 +1562,11 @@
                 </div>
             `).join('');
 
-            openModal('compareModal');
+            modal.classList.remove('hidden');
         }
 
         function closeCompareModal() {
-            closeModal('compareModal');
+            document.getElementById('compareModal').classList.add('hidden');
         }
 
         function addToCart(id, qty = 1) {
@@ -1425,7 +1577,7 @@
                 state.cart.push({ id, qty });
             }
             saveCart();
-            showToast('تمت إضافة المنتج للسلة');
+            showToast('تمت إضافة المنتج إلى سلة التسوق بنجاح');
         }
 
         function updateCartQty(id, delta) {
@@ -1454,11 +1606,11 @@
             if (code === 'MUGORA10') {
                 state.appliedCoupon = { code: 'MUGORA10', discount: 0.10 };
                 msg.textContent = 'تم تطبيق خصم 10% بنجاح!';
-                msg.className = 'text-[10px] sm:text-[11px] text-emerald-400 block';
+                msg.className = 'text-[11px] text-emerald-400 block';
                 showToast('تم تطبيق كود الخصم بنجاح!');
             } else {
-                msg.textContent = 'كود الخصم غير صحيح.';
-                msg.className = 'text-[10px] sm:text-[11px] text-red-400 block';
+                msg.textContent = 'كود الخصم غير صحيح أو منتهي الصلاحية.';
+                msg.className = 'text-[11px] text-red-400 block';
             }
             renderCartView();
         }
@@ -1475,7 +1627,7 @@
                 showToast('تم إزالة المنتج من المفضلة');
             } else {
                 state.wishlist.push(id);
-                showToast('تمت إضافة المنتج للمفضلة');
+                showToast('تمت إضافة المنتج إلى المفضلة');
             }
             localStorage.setItem('mugora_wishlist', JSON.stringify(state.wishlist));
             updateBadges();
@@ -1491,7 +1643,7 @@
             const cartCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
             if (cartBadge) {
                 if (cartCount > 0) {
-                    cartBadge.textContent = cartCount > 99 ? '99+' : cartCount;
+                    cartBadge.textContent = cartCount;
                     cartBadge.classList.remove('hidden');
                 } else {
                     cartBadge.classList.add('hidden');
@@ -1517,40 +1669,27 @@
             }
         }
 
-        // التبديل العادي (بيفتح مودال تلقائي)
         function switchTab(tabName) {
-            // اقفل أي مودال مفتوح أولاً
-            closeAllModalsSilently();
-            switchTabSilent(tabName);
-            pushHistory({ tab: tabName, modal: null });
-        }
-
-        // التبديل الصامت (بدون history) - يستخدم من popstate
-        function switchTabSilent(tabName) {
             const tabs = ['tabHome', 'tabShop', 'tabWishlist', 'tabCart', 'tabProfile'];
             tabs.forEach(t => {
                 const el = document.getElementById(t);
                 if (el) el.classList.add('hidden');
             });
 
-            let target = null;
-            if (tabName === 'home') target = document.getElementById('tabHome');
-            if (tabName === 'shop') target = document.getElementById('tabShop');
-            if (tabName === 'wishlist') target = document.getElementById('tabWishlist');
-            if (tabName === 'cart') target = document.getElementById('tabCart');
-            if (tabName === 'profile') target = document.getElementById('tabProfile');
-
-            if (target) {
-                target.classList.remove('hidden');
-                target.classList.add('tab-fade');
-                setTimeout(() => target.classList.remove('tab-fade'), 400);
+            if (tabName === 'home') document.getElementById('tabHome')?.classList.remove('hidden');
+            if (tabName === 'shop') {
+                document.getElementById('tabShop')?.classList.remove('hidden');
+                renderProducts();
             }
-
-            state.currentTab = tabName;
-
-            if (tabName === 'shop') renderProducts();
-            if (tabName === 'wishlist') renderWishlistGrid();
-            if (tabName === 'cart') renderCartView();
+            if (tabName === 'wishlist') {
+                document.getElementById('tabWishlist')?.classList.remove('hidden');
+                renderWishlistGrid();
+            }
+            if (tabName === 'cart') {
+                document.getElementById('tabCart')?.classList.remove('hidden');
+                renderCartView();
+            }
+            if (tabName === 'profile') document.getElementById('tabProfile')?.classList.remove('hidden');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1593,21 +1732,21 @@
                 subtotal += itemTotal;
 
                 return `
-                    <div class="cart-row-item bg-[#0B0B0B] border border-[#282828] rounded-2xl p-3 sm:p-4 flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-3 flex-1 min-w-0">
-                            <div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#121212] rounded-xl p-1.5 sm:p-2 flex items-center justify-center flex-shrink-0 border border-[#282828]">
+                    <div class="bg-[#0B0B0B] border border-[#282828] rounded-2xl p-4 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-[#121212] rounded-xl p-2 flex items-center justify-center flex-shrink-0 border border-[#282828]">
                                 <img src="${product.img}" alt="${product.name}" class="max-h-full max-w-full object-contain">
                             </div>
-                            <div class="min-w-0 flex-1">
-                                <h4 class="text-[11px] sm:text-sm font-bold text-white leading-snug line-clamp-2">${product.name}</h4>
-                                <span class="text-[11px] sm:text-xs text-[#C9A15A] font-bold">${product.price} ج.م</span>
+                            <div>
+                                <h4 class="text-xs sm:text-sm font-bold text-white leading-snug">${product.name}</h4>
+                                <span class="text-xs text-[#C9A15A] font-bold">${product.price} ج.م</span>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                        <div class="flex items-center gap-4">
                             <div class="inline-flex items-center bg-[#121212] rounded-xl border border-[#282828]">
-                                <button onclick="updateCartQty(${product.id}, -1)" class="w-8 h-8 flex items-center justify-center text-white hover:text-[#C9A15A] font-bold">−</button>
-                                <span class="w-7 sm:w-8 text-center text-xs font-bold text-white">${item.qty}</span>
+                                <button onclick="updateCartQty(${product.id}, -1)" class="w-8 h-8 flex items-center justify-center text-white hover:text-[#C9A15A] font-bold">-</button>
+                                <span class="w-8 text-center text-xs font-bold text-white">${item.qty}</span>
                                 <button onclick="updateCartQty(${product.id}, 1)" class="w-8 h-8 flex items-center justify-center text-white hover:text-[#C9A15A] font-bold">+</button>
                             </div>
 
@@ -1627,7 +1766,7 @@
             if(freeBar) freeBar.style.width = `${pct}%`;
             if(freeStatus) {
                 if(subtotal >= freeShippingThreshold) {
-                    freeStatus.textContent = 'مبروك! الشحن مجاني';
+                    freeStatus.textContent = 'مبروك! الشحن مجاني لطلبك';
                     freeStatus.className = 'text-emerald-400 font-bold';
                 } else {
                     freeStatus.textContent = `${subtotal} / ${freeShippingThreshold} ج.م`;
@@ -1676,17 +1815,18 @@
 
         function openCheckoutModal() {
             if (state.cart.length === 0) return;
-            openModal('checkoutModal');
+            document.getElementById('checkoutModal').classList.remove('hidden');
             calculateDeliveryFee();
         }
 
         function closeCheckoutModal() {
-            closeModal('checkoutModal');
+            document.getElementById('checkoutModal').classList.add('hidden');
         }
 
         function submitOrder(e) {
             e.preventDefault();
 
+            // ===== 1. جمع بيانات العميل =====
             const name     = document.getElementById('custName').value.trim();
             const phone    = document.getElementById('custPhone').value.trim();
             const govSel   = document.getElementById('custGov');
@@ -1699,6 +1839,7 @@
                 ? 'تحويل InstaPay / المحافظ الإلكترونية'
                 : 'الدفع نقداً عند الاستلام';
 
+            // ===== 2. بناء قائمة المنتجات + حساب المجموع الفرعي =====
             let subtotal = 0;
             let itemsText = '';
             let i = 1;
@@ -1713,6 +1854,7 @@
                 i++;
             });
 
+            // ===== 3. حساب الشحن والخصم والإجمالي =====
             const FREE_SHIPPING = 1200;
             let delivery = 50;
 
@@ -1733,6 +1875,7 @@
 
             const orderId = 'MUG-' + Math.floor(100000 + Math.random() * 900000);
 
+            // ===== 4. بناء رسالة الواتساب =====
             let msg = `🛍️ *طلب جديد من MUGORA*\n`;
             msg += `━━━━━━━━━━━━━━━━━━\n`;
             msg += `🔖 *رقم الطلب:* ${orderId}\n\n`;
@@ -1758,20 +1901,21 @@
 
             const waURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 
+            // ===== 5. فتح واتساب =====
             const waWindow = window.open(waURL, '_blank');
 
             if (!waWindow || waWindow.closed || typeof waWindow.closed === 'undefined') {
                 window.location.href = waURL;
             }
 
+            // ===== 6. تفريغ السلة وإغلاق المودال =====
             closeCheckoutModal();
             state.cart = [];
             state.appliedCoupon = null;
             saveCart();
-            switchTabSilent('home');
-            pushHistory({ tab: 'home', modal: null });
+            switchTab('home');
 
-            showToast(`تم تجهيز طلبك #${orderId} ✅`);
+            showToast(`تم تجهيز طلبك #${orderId} — أكمل الإرسال على واتساب ✅`);
         }
 
         function saveProfile() {
@@ -1779,7 +1923,7 @@
         }
 
         function scrollToProducts() {
-            document.getElementById('productsSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('productsSection')?.scrollIntoView({ behavior: 'smooth' });
         }
 
         function showToast(message) {
@@ -1787,9 +1931,9 @@
             if(!container) return;
 
             const toast = document.createElement('div');
-            toast.className = 'bg-[#121212] text-[#F5EFE4] border border-[#C9A15A]/60 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl shadow-2xl text-[11px] sm:text-xs flex items-center gap-2 sm:gap-3 animate-bounce pointer-events-auto backdrop-blur-md';
+            toast.className = 'bg-[#121212] text-[#F5EFE4] border border-[#C9A15A]/60 px-5 py-3.5 rounded-2xl shadow-2xl text-xs flex items-center gap-3 animate-bounce pointer-events-auto backdrop-blur-md';
             toast.innerHTML = `
-                <i class="fa-solid fa-circle-check text-[#C9A15A] text-base sm:text-lg flex-shrink-0"></i>
+                <i class="fa-solid fa-circle-check text-[#C9A15A] text-lg"></i>
                 <span class="flex-1 font-semibold">${message}</span>
             `;
             container.appendChild(toast);
