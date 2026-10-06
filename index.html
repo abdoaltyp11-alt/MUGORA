@@ -1262,6 +1262,14 @@
         // Initialize App
         window.addEventListener('DOMContentLoaded', () => {
             history.replaceState({ mugora: true, tab: 'home', overlays: [] }, '', location.href);
+            const validProductIds = new Set(PRODUCTS.map(product => product.id));
+            const validCart = state.cart.filter(item =>
+                validProductIds.has(item.id) && Number.isInteger(item.qty) && item.qty > 0
+            );
+            if (validCart.length !== state.cart.length) {
+                state.cart = validCart;
+                saveCart();
+            }
             renderCategories();
             renderProducts();
             updateBadges();
