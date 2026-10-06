@@ -173,9 +173,12 @@
                 <span class="w-2 h-2 rounded-full bg-[#C9A15A] animate-ping"></span>
                 <span>توصيل مجاني لجميع الطلبات فوق 1200 ج.م</span>
             </div>
-            <div class="mx-auto sm:mx-0 flex items-center gap-3">
-                <i class="fa-solid fa-fire text-[#C9A15A]"></i>
-                <span>استخدم كود <strong class="bg-[#C9A15A]/20 px-2 py-0.5 rounded text-white border border-[#C9A15A]/40 font-mono">MUGORA10</strong> للحصول على خصم 10%</span>
+            <div class="mx-auto sm:mx-0 flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-fire text-[#C9A15A]"></i>
+                    <span>استخدم كود <strong class="bg-[#C9A15A]/20 px-2 py-0.5 rounded text-white border border-[#C9A15A]/40 font-mono">MUGORA10</strong> للحصول على خصم 10%</span>
+                </span>
+                <span class="text-white font-bold"><i class="fa-solid fa-gift text-[#C9A15A] ml-1"></i>اشتري 2 وخدي الثالثة هدية!</span>
             </div>
             <div class="hidden md:flex items-center gap-3 text-[11px] text-[#8A8A8A]">
                 <span><i class="fa-solid fa-headset text-[#C9A15A]"></i> خدمة العملاء 24/7</span>
@@ -504,7 +507,7 @@
         <section id="tabCart" class="hidden space-y-8">
             <div class="bg-[#0B0B0B] p-8 rounded-3xl border border-[#282828]">
                 <h1 class="font-serif text-3xl font-bold text-white">سلة التسوق - MUGORA</h1>
-                <p class="text-xs sm:text-sm text-[#8A8A8A] mt-1">راجع المنتجات المحددة وتأكد من تطبيق كود الخصم للحصول على أفضل سعر.</p>
+                <p class="text-xs sm:text-sm text-[#8A8A8A] mt-1">اشتري قطعتين واحصلي على الثالثة هدية تلقائيًا، ويمكنك إضافة كود الخصم للحصول على سعر أفضل.</p>
             </div>
 
             <div id="cartContent" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -516,6 +519,14 @@
                     <div class="bg-[#0B0B0B] p-6 rounded-3xl border border-[#282828] space-y-6 sticky top-28 shadow-2xl">
                         <h3 class="font-serif text-xl font-bold text-white border-b border-[#282828] pb-4">ملخص الطلب</h3>
                         
+                        <div class="bg-[#121212] p-4 rounded-2xl border border-[#282828] space-y-2">
+                            <div class="flex items-center gap-2 text-xs font-bold text-[#E8CA8C]">
+                                <i class="fa-solid fa-gift"></i>
+                                <span>عرض خاص: اشتري 2 وخدي الثالثة هدية</span>
+                            </div>
+                            <p id="buyTwoGetOneStatus" class="text-[11px] text-[#8A8A8A]">العرض يُطبق تلقائيًا عند إضافة 3 منتجات للسلة</p>
+                        </div>
+
                         <div class="bg-[#121212] p-4 rounded-2xl border border-[#282828] space-y-2">
                             <div class="flex justify-between text-xs font-semibold">
                                 <span class="text-[#8A8A8A]">مؤشر الشحن المجاني:</span>
@@ -541,6 +552,10 @@
                             <div class="flex justify-between text-[#8A8A8A]">
                                 <span>المجموع الفرعي</span>
                                 <span id="cartSubtotal" class="text-white font-medium">0 ج.م</span>
+                            </div>
+                            <div id="buyTwoGetOneRow" class="hidden flex justify-between text-emerald-400 font-medium">
+                                <span>خصم عرض 2 + 1</span>
+                                <span id="buyTwoGetOneAmount">-0 ج.م</span>
                             </div>
                             <div id="discountRow" class="hidden flex justify-between text-emerald-400 font-medium">
                                 <span>خصم الكوبون</span>
@@ -1748,6 +1763,26 @@
             }
         }
 
+        function calculateCartPricing() {
+            const lines = state.cart.map(item => {
+                const product = PRODUCTS.find(p => p.id === item.id);
+                return product ? { product, qty: item.qty, freeQty: 0, paidQty: item.qty } : null;
+            }).filter(Boolean);
+            let freeItemsRemaining = Math.floor(lines.reduce((total, line) => total + line.qty, 0) / 3);
+
+            lines.sort((a, b) => a.product.price - b.product.price);
+            lines.forEach(line => {
+                line.freeQty = Math.min(line.qty, freeItemsRemaining);
+                line.paidQty = line.qty - line.freeQty;
+                freeItemsRemaining -= line.freeQty;
+            });
+
+            const grossSubtotal = lines.reduce((total, line) => total + line.product.price * line.qty, 0);
+            const subtotal = lines.reduce((total, line) => total + line.product.price * line.paidQty, 0);
+            const promotionDiscount = lines.reduce((total, line) => total + line.product.price * line.freeQty, 0);
+            return { lines, grossSubtotal, subtotal, promotionDiscount };
+        }
+
         function renderCartView() {
             const list = document.getElementById('cartList');
             const empty = document.getElementById('emptyCart');
@@ -1762,14 +1797,11 @@
             if (content) content.classList.remove('hidden');
             if (empty) empty.classList.add('hidden');
 
-            let subtotal = 0;
+            const pricing = calculateCartPricing();
+            const { grossSubtotal, subtotal, promotionDiscount } = pricing;
 
-            list.innerHTML = state.cart.map(item => {
-                const product = PRODUCTS.find(p => p.id === item.id);
-                if (!product) return '';
-                
-                const itemTotal = product.price * item.qty;
-                subtotal += itemTotal;
+            list.innerHTML = pricing.lines.map(({ product, qty, freeQty, paidQty }) => {
+                const itemTotal = product.price * paidQty;
 
                 return `
                     <div class="bg-[#0B0B0B] border border-[#282828] rounded-2xl p-4 flex items-center justify-between gap-4">
@@ -1779,14 +1811,15 @@
                             </div>
                             <div>
                                 <h4 class="text-xs sm:text-sm font-bold text-white leading-snug">${product.name}</h4>
-                                <span class="text-xs text-[#C9A15A] font-bold">${product.price} ج.م</span>
+                                <span class="text-xs text-[#C9A15A] font-bold">${product.price} ج.م للقطعة · الإجمالي ${itemTotal} ج.م</span>
+                                ${freeQty ? `<span class="block text-[11px] text-emerald-400 font-bold">هدية العرض: ${freeQty} قطعة</span>` : ''}
                             </div>
                         </div>
 
                         <div class="flex items-center gap-4">
                             <div class="inline-flex items-center bg-[#121212] rounded-xl border border-[#282828]">
                                 <button onclick="updateCartQty(${product.id}, -1)" class="w-8 h-8 flex items-center justify-center text-white hover:text-[#C9A15A] font-bold">-</button>
-                                <span class="w-8 text-center text-xs font-bold text-white">${item.qty}</span>
+                                <span class="w-8 text-center text-xs font-bold text-white">${qty}</span>
                                 <button onclick="updateCartQty(${product.id}, 1)" class="w-8 h-8 flex items-center justify-center text-white hover:text-[#C9A15A] font-bold">+</button>
                             </div>
 
@@ -1802,6 +1835,21 @@
             const freeBar = document.getElementById('freeShippingBar');
             const freeStatus = document.getElementById('freeShippingStatus');
             const pct = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
+            const offerStatus = document.getElementById('buyTwoGetOneStatus');
+            const offerRow = document.getElementById('buyTwoGetOneRow');
+            const offerAmount = document.getElementById('buyTwoGetOneAmount');
+            const totalQty = pricing.lines.reduce((total, line) => total + line.qty, 0);
+            const freeQty = pricing.lines.reduce((total, line) => total + line.freeQty, 0);
+
+            if (offerStatus) {
+                offerStatus.textContent = freeQty
+                    ? `تم تطبيق العرض: ${freeQty} ${freeQty === 1 ? 'قطعة هدية' : 'قطع هدية'}`
+                    : `أضف ${3 - (totalQty % 3)} ${3 - (totalQty % 3) === 1 ? 'قطعة' : 'قطع'} لتحصل على الثالثة هدية`;
+            }
+            if (offerRow && offerAmount) {
+                offerRow.classList.toggle('hidden', promotionDiscount === 0);
+                offerAmount.textContent = `-${promotionDiscount} ج.م`;
+            }
 
             if(freeBar) freeBar.style.width = `${pct}%`;
             if(freeStatus) {
@@ -1827,7 +1875,7 @@
 
             const total = Math.max(0, subtotal - discountAmount + delivery);
 
-            document.getElementById('cartSubtotal').textContent = `${subtotal} ج.م`;
+            document.getElementById('cartSubtotal').textContent = `${grossSubtotal} ج.م`;
             document.getElementById('cartDelivery').textContent = delivery === 0 ? 'مجاني' : `${delivery} ج.م`;
             document.getElementById('cartTotal').textContent = `${total} ج.م`;
             document.getElementById('checkoutTotal').textContent = `${total} ج.م`;
@@ -1840,10 +1888,7 @@
             if(gov === 'delta') fee = 65;
             if(gov === 'upper') fee = 85;
 
-            let subtotal = state.cart.reduce((sum, item) => {
-                const p = PRODUCTS.find(prod => prod.id === item.id);
-                return sum + (p ? p.price * item.qty : 0);
-            }, 0);
+            const { subtotal } = calculateCartPricing();
 
             if (subtotal >= 1200) fee = 0;
 
@@ -1880,18 +1925,20 @@
                 ? 'تحويل InstaPay / المحافظ الإلكترونية'
                 : 'الدفع نقداً عند الاستلام';
 
-            // ===== 2. بناء قائمة المنتجات + حساب المجموع الفرعي =====
-            let subtotal = 0;
+            // ===== 2. بناء قائمة المنتجات + حساب العرض والمجموع الفرعي =====
+            const pricing = calculateCartPricing();
+            const subtotal = pricing.grossSubtotal;
+            const discountedSubtotal = pricing.subtotal;
+            const promotionDiscount = pricing.promotionDiscount;
             let itemsText = '';
             let i = 1;
 
-            state.cart.forEach(item => {
-                const p = PRODUCTS.find(prod => prod.id === item.id);
-                if (!p) return;
-                const lineTotal = p.price * item.qty;
-                subtotal += lineTotal;
-                itemsText += `${i}) ${p.name}\n`;
-                itemsText += `     الكمية: ${item.qty} × ${p.price} ج.م = ${lineTotal} ج.م\n`;
+            pricing.lines.forEach(({ product, qty, freeQty, paidQty }) => {
+                const lineTotal = product.price * paidQty;
+                itemsText += `${i}) ${product.name}\n`;
+                itemsText += `     الكمية: ${qty} × ${product.price} ج.م`;
+                if (freeQty) itemsText += ` (منها ${freeQty} هدية)`;
+                itemsText += ` = ${lineTotal} ج.م\n`;
                 i++;
             });
 
@@ -1899,7 +1946,7 @@
             const FREE_SHIPPING = 1200;
             let delivery = 50;
 
-            if (subtotal >= FREE_SHIPPING) {
+            if (discountedSubtotal >= FREE_SHIPPING) {
                 delivery = 0;
             } else {
                 if (govValue === 'alex')       delivery = 60;
@@ -1909,10 +1956,10 @@
             }
 
             const discountAmount = state.appliedCoupon
-                ? Math.round(subtotal * state.appliedCoupon.discount)
+                ? Math.round(discountedSubtotal * state.appliedCoupon.discount)
                 : 0;
 
-            const total = Math.max(0, subtotal - discountAmount + delivery);
+            const total = Math.max(0, discountedSubtotal - discountAmount + delivery);
 
             const orderId = 'MUG-' + Math.floor(100000 + Math.random() * 900000);
 
@@ -1929,6 +1976,10 @@
             msg += `🛒 *تفاصيل المنتجات:*\n${itemsText}`;
             msg += `━━━━━━━━━━━━━━━━━━\n`;
             msg += `💵 *المجموع الفرعي:* ${subtotal} ج.م\n`;
+
+            if (promotionDiscount > 0) {
+                msg += `🎁 *عرض اشتري 2 والثالثة هدية:* -${promotionDiscount} ج.م\n`;
+            }
 
             if (discountAmount > 0) {
                 msg += `🎁 *الخصم (${state.appliedCoupon.code}):* -${discountAmount} ج.م\n`;
