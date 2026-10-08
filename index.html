@@ -415,7 +415,7 @@
                         </span>
 
                         <select id="sortSelect" onchange="handleSort(this.value)" class="bg-[#121212] text-xs text-[#F5EFE4] px-4 py-2.5 rounded-full border border-[#282828] focus:outline-none focus:border-[#C9A15A]">
-                            <option value="default">الترتيب الافتراضي</option>
+                            <option value="price-asc" selected>السعر: من الأقل للأعلى</option>
                             <option value="price-asc">السعر: من الأقل للأعلى</option>
                             <option value="price-desc">السعر: من الأعلى للأقل</option>
                             <option value="rating">الأعلى تقييمًا</option>
@@ -1251,7 +1251,7 @@
             compareList: JSON.parse(localStorage.getItem('mugora_compare') || '[]'),
             selectedCategory: 'All',
             searchQuery: '',
-            sortBy: 'default',
+            sortBy: 'price-asc',
             modalProduct: null,
             modalQty: 1,
             appliedCoupon: null,
@@ -1370,7 +1370,7 @@
             state.sortBy = 'default';
             const input = document.getElementById('searchInput');
             if(input) input.value = '';
-            document.getElementById('sortSelect').value = 'default';
+            document.getElementById('sortSelect').value = 'price-asc';
             renderCategories();
             renderProducts();
         }
