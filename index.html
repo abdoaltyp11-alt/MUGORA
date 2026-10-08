@@ -415,8 +415,8 @@
                         </span>
 
                         <select id="sortSelect" onchange="handleSort(this.value)" class="bg-[#121212] text-xs text-[#F5EFE4] px-4 py-2.5 rounded-full border border-[#282828] focus:outline-none focus:border-[#C9A15A]">
+                            <option value="default">الترتيب الافتراضي</option>
                             <option value="price-asc" selected>السعر: من الأقل للأعلى</option>
-                            <option value="price-asc">السعر: من الأقل للأعلى</option>
                             <option value="price-desc">السعر: من الأعلى للأقل</option>
                             <option value="rating">الأعلى تقييمًا</option>
                         </select>
@@ -1201,6 +1201,7 @@
         const PRODUCT_GROUPS = [
             {
                 folder: 'التحديث/اوله',
+                name: 'أوالا مجوّرة',
                 price: 650,
                 images: [
                     'WhatsApp Image 2026-10-06 at 9.36.43 PM.jpeg',
@@ -1227,22 +1228,77 @@
                     'WhatsApp Image 2026-10-06 at 9.36.52 PM (1).jpeg',
                     'WhatsApp Image 2026-10-06 at 9.36.52 PM.jpeg'
                 ]
+            },
+            {
+                folder: 'التحديث/سميج',
+                name: 'سميج',
+                price: 450,
+                images: [
+                    'WhatsApp Image 2026-10-06 at 11.18.57 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 11.18.58 PM (1).jpeg',
+                    'WhatsApp Image 2026-10-06 at 11.18.58 PM (2).jpeg',
+                    'WhatsApp Image 2026-10-06 at 11.18.58 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 11.18.59 PM.jpeg'
+                ]
+            },
+            {
+                folder: 'التحديث/ازازه شموا',
+                name: 'ازازة شموا',
+                price: 300,
+                images: [
+                    'WhatsApp Image 2026-10-06 at 8.47.15 PM (1).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.15 PM (2).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.15 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.16 PM (1).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.16 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.17 PM (1).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.17 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.18 PM (1).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.18 PM (2).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.18 PM (3).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.18 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.19 PM (1).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.19 PM (2).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.19 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.20 PM.jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.21 PM (1).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.21 PM (2).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.21 PM (3).jpeg',
+                    'WhatsApp Image 2026-10-06 at 8.47.21 PM.jpeg'
+                ]
+            },
+            {
+                folder: 'التحديث/استلس اشرشا',
+                name: 'استانلي ارشيا',
+                price: 450,
+                images: [
+                    'WhatsApp Image 2026-10-08 at 3.15.32 PM.jpeg'
+                ]
             }
         ];
 
-        const PRODUCTS = PRODUCT_GROUPS.flatMap(group => group.images.map((image, index) => ({
-            id: 500 + index + 1,
-            name: `أوالا مجوّرة - ${String(index + 1).padStart(2, '0')}`,
-            category: `أوالا مجوّرة - ${group.price} ج.م`,
-            price: group.price,
-            originalPrice: null,
-            rating: 5,
-            reviews: 0,
-            img: encodeURI(`${group.folder}/${image}`),
-            desc: 'زجاجة أوالا مجوّرة من المنتجات المضافة حديثًا.',
-            isNew: true,
-            usage: 'office'
-        })));
+        const PRODUCTS = PRODUCT_GROUPS.flatMap((group, groupIndex) => {
+            const firstProductId = 501 + PRODUCT_GROUPS
+                .slice(0, groupIndex)
+                .reduce((count, previousGroup) => count + previousGroup.images.length, 0);
+
+            return group.images.map((image, index) => {
+                const price = group.name === 'أوالا مجوّرة' && [4, 5].includes(index + 1) ? 750 : group.price;
+                return {
+                    id: firstProductId + index,
+                    name: `${group.name} - ${String(index + 1).padStart(2, '0')}`,
+                    category: `${group.name} - ${price} ج.م`,
+                    price,
+                    originalPrice: null,
+                    rating: 5,
+                    reviews: 0,
+                    img: encodeURI(`${group.folder}/${image}`),
+                    desc: `منتج ${group.name} من المنتجات المضافة حديثًا.`,
+                    isNew: true,
+                    usage: 'office'
+                };
+            });
+        });
 
         // Global State
         let state = {
@@ -1367,7 +1423,7 @@
         function resetFilters() {
             state.selectedCategory = 'All';
             state.searchQuery = '';
-            state.sortBy = 'default';
+            state.sortBy = 'price-asc';
             const input = document.getElementById('searchInput');
             if(input) input.value = '';
             document.getElementById('sortSelect').value = 'price-asc';
