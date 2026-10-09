@@ -1284,12 +1284,14 @@
 
             return group.images.map((image, index) => {
                 const price = group.name === 'أوالا مجوّرة' && [4, 5].includes(index + 1) ? 750 : group.price;
+                const isFirstUploadedProduct = firstProductId + index === 501;
+                const originalPrice = isFirstUploadedProduct ? null : price + 50;
                 return {
                     id: firstProductId + index,
                     name: `${group.name} - ${String(index + 1).padStart(2, '0')}`,
                     category: `${group.name} - ${price} ج.م`,
                     price,
-                    originalPrice: null,
+                    originalPrice,
                     rating: 5,
                     reviews: 0,
                     img: encodeURI(`${group.folder}/${image}`),
