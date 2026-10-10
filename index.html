@@ -168,13 +168,20 @@
         pointer-events: none !important;
         user-select: none !important;
     }
-    #mugora-paused-overlay {
-        position: fixed; inset: 0; z-index: 2147483647;
-        display: flex; align-items: center; justify-content: center;
-        padding: 24px; text-align: center; direction: rtl;
-        background: rgba(255,255,255,.62);
-        -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-        color: #000; font-family: 'Cairo', sans-serif;
+    html body.mugora-paused { overflow: hidden !important; }
+    html body.mugora-paused > *:not(#mugora-paused-overlay) {
+        filter: blur(8px) !important;
+        pointer-events: none !important;
+        user-select: none !important;
+    }
+    html body #mugora-paused-overlay {
+        position: fixed !important; inset: 0 !important; z-index: 2147483647 !important;
+        display: flex !important; align-items: center !important; justify-content: center !important;
+        padding: 24px !important; text-align: center !important; direction: rtl !important;
+        background: rgba(255,255,255,.62) !important;
+        -webkit-backdrop-filter: blur(10px) !important; backdrop-filter: blur(10px) !important;
+        color: #000 !important; font-family: 'Cairo', sans-serif !important;
+        pointer-events: auto !important; visibility: visible !important; opacity: 1 !important;
     }
     #mugora-paused-overlay .notice {
         max-width: 720px; font-size: clamp(24px, 5vw, 42px);
@@ -184,9 +191,30 @@
 </head>
 <body class="bg-[#050505] text-[#F5EFE4] min-h-screen flex flex-col justify-between antialiased mugora-paused">
 
-    <div id="mugora-paused-overlay" role="alert" aria-live="polite">
+    <div id="mugora-paused-overlay" role="alert" aria-live="assertive">
         <div class="notice">نعتذر منكم ❤️<br>متجر مجوره متوقف حاليًا، برجاء عدم استخدام الموقع في الوقت الحالي.<br>شكرًا لتفهمكم.</div>
     </div>
+    <script>
+      (function () {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.classList.add('mugora-paused');
+        var showStoreNotice = function () {
+          var overlay = document.getElementById('mugora-paused-overlay');
+          if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'mugora-paused-overlay';
+            overlay.setAttribute('role', 'alert');
+            overlay.setAttribute('aria-live', 'assertive');
+            overlay.innerHTML = '<div class="notice">نعتذر منكم ❤️<br>متجر مجوره متوقف حاليًا، برجاء عدم استخدام الموقع في الوقت الحالي.<br>شكرًا لتفهمكم.</div>';
+            document.body.prepend(overlay);
+          }
+          document.body.classList.add('mugora-paused');
+          overlay.style.cssText = 'position:fixed!important;inset:0!important;z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:24px!important;text-align:center!important;direction:rtl!important;background:rgba(255,255,255,.62)!important;-webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important;color:#000!important;font-family:Cairo,sans-serif!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important;';
+        };
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showStoreNotice);
+        else showStoreNotice();
+      })();
+    </script>
 
 
     <!-- Toast Notification Container -->
