@@ -160,8 +160,34 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
+<style>
+    /* Temporary store notice: blur and disable the website behind the notice */
+    body.mugora-paused { overflow: hidden !important; }
+    body.mugora-paused > *:not(#mugora-paused-overlay) {
+        filter: blur(8px) !important;
+        pointer-events: none !important;
+        user-select: none !important;
+    }
+    #mugora-paused-overlay {
+        position: fixed; inset: 0; z-index: 2147483647;
+        display: flex; align-items: center; justify-content: center;
+        padding: 24px; text-align: center; direction: rtl;
+        background: rgba(255,255,255,.62);
+        -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+        color: #000; font-family: 'Cairo', sans-serif;
+    }
+    #mugora-paused-overlay .notice {
+        max-width: 720px; font-size: clamp(24px, 5vw, 42px);
+        line-height: 1.7; font-weight: 900; color: #000;
+    }
+</style>
 </head>
-<body class="bg-[#050505] text-[#F5EFE4] min-h-screen flex flex-col justify-between antialiased">
+<body class="bg-[#050505] text-[#F5EFE4] min-h-screen flex flex-col justify-between antialiased" class="mugora-paused">
+
+    <div id="mugora-paused-overlay" role="alert" aria-live="polite">
+        <div class="notice">نعتذر منكم ❤️<br>متجر مجوره متوقف حاليًا، برجاء عدم استخدام الموقع في الوقت الحالي.<br>شكرًا لتفهمكم.</div>
+    </div>
+
 
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 w-full max-w-md px-4 pointer-events-none"></div>
