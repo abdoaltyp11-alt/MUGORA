@@ -188,6 +188,37 @@
         line-height: 1.7; font-weight: 900; color: #000;
     }
 </style>
+    <!-- Store pause screen: shown immediately on every direct visit and refresh -->
+    <style id="mugora-pause-critical">
+      html, body { min-height:100%; }
+      html body.mugora-paused { overflow:hidden!important; }
+      html body.mugora-paused > *:not(#mugora-paused-overlay) { filter:blur(8px)!important; pointer-events:none!important; user-select:none!important; }
+      html body #mugora-paused-overlay { position:fixed!important; inset:0!important; z-index:2147483647!important; display:flex!important; align-items:center!important; justify-content:center!important; padding:24px!important; text-align:center!important; direction:rtl!important; background:rgba(255,255,255,.62)!important; -webkit-backdrop-filter:blur(10px)!important; backdrop-filter:blur(10px)!important; color:#000!important; font-family:'Cairo',sans-serif!important; pointer-events:auto!important; visibility:visible!important; opacity:1!important; }
+      html body #mugora-paused-overlay .notice { max-width:720px!important; font-size:clamp(24px,5vw,42px)!important; line-height:1.7!important; font-weight:900!important; color:#000!important; }
+    </style>
+    <script>
+      document.documentElement.classList.add('mugora-site-paused');
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.classList.add('mugora-paused');
+        var overlay = document.getElementById('mugora-paused-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = 'mugora-paused-overlay';
+          overlay.innerHTML = '<div class="notice">نعتذر منكم ❤️<br>متجر مجوره متوقف حاليًا، برجاء عدم استخدام الموقع في الوقت الحالي.<br>شكرًا لتفهمكم.</div>';
+          document.body.prepend(overlay);
+        }
+        overlay.setAttribute('role', 'alert');
+        overlay.setAttribute('aria-live', 'assertive');
+        overlay.style.cssText = 'position:fixed!important;inset:0!important;z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:24px!important;text-align:center!important;direction:rtl!important;background:rgba(255,255,255,.62)!important;-webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important;color:#000!important;font-family:Cairo,sans-serif!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important;';
+        document.addEventListener('click', function (event) {
+          if (!overlay.contains(event.target)) { event.preventDefault(); event.stopImmediatePropagation(); }
+        }, true);
+        document.addEventListener('keydown', function (event) {
+          if (event.key !== 'Tab') { event.preventDefault(); event.stopImmediatePropagation(); }
+        }, true);
+      });
+    </script>
+
 </head>
 <body class="bg-[#050505] text-[#F5EFE4] min-h-screen flex flex-col justify-between antialiased mugora-paused">
 
