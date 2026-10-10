@@ -1,3 +1,108 @@
-نعتذر منكم ❤️
-متجر مجوره متوقف حاليًا، برجاء عدم استخدام الموقع في الوقت الحالي.
-شكرًا لتفهمكم.
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>مجوره | توقف مؤقت</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      overflow: hidden;
+      color: #f7f2e8;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(179, 139, 72, .18), transparent 55%),
+        radial-gradient(ellipse at 100% 100%, rgba(179, 139, 72, .08), transparent 45%),
+        #090909;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+    .glow {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(191, 151, 83, .08);
+      filter: blur(75px);
+      pointer-events: none;
+    }
+    .notice {
+      position: relative;
+      width: min(100%, 680px);
+      padding: clamp(32px, 7vw, 64px) clamp(22px, 6vw, 54px);
+      text-align: center;
+      border: 1px solid rgba(204, 169, 108, .48);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(30, 28, 24, .96), rgba(14, 14, 14, .98));
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .mark {
+      display: inline-grid;
+      place-items: center;
+      width: 66px;
+      height: 66px;
+      margin-bottom: 24px;
+      border: 1px solid #b9975b;
+      border-radius: 50%;
+      color: #d9bc83;
+      font-size: 30px;
+      box-shadow: 0 0 32px rgba(185,151,91,.12);
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #c7a66a;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+    h1 {
+      margin: 0 0 22px;
+      color: #fffaf0;
+      font-size: clamp(30px, 6vw, 46px);
+      line-height: 1.4;
+      font-weight: 800;
+    }
+    .message {
+      margin: 0 auto;
+      max-width: 510px;
+      color: #ded8cc;
+      font-size: clamp(17px, 3.5vw, 21px);
+      line-height: 2;
+    }
+    .heart { color: #d9ad75; }
+    .rule {
+      width: 72px;
+      height: 2px;
+      margin: 28px auto;
+      background: linear-gradient(90deg, transparent, #c7a66a, transparent);
+    }
+    .thanks {
+      margin: 0;
+      color: #c7a66a;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.9;
+    }
+    @media (max-width: 420px) {
+      body { padding: 16px; }
+      .notice { border-radius: 22px; }
+      .eyebrow { letter-spacing: 2.5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <main class="notice">
+    <div class="mark" aria-hidden="true">م</div>
+    <p class="eyebrow">MUGORA</p>
+    <h1>نعتذر منكم <span class="heart">♥</span></h1>
+    <p class="message">متجر مجوره متوقف حاليًا، برجاء عدم استخدام الموقع في الوقت الحالي.</p>
+    <div class="rule" aria-hidden="true"></div>
+    <p class="thanks">شكرًا لتفهمكم وتقديركم</p>
+  </main>
+</body>
+</html>
